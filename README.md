@@ -121,11 +121,11 @@ This is the high level technical phase of the planning that was done above. We n
 
 This phase will be concluded when we have a detailed plan of the technical setup and technical architecture overview as well as the deployment and technology stack overview.
 
-### Phase 1: Basic data storage structure and models involved
+### Phase 1: Technical Internal overview and data storage structure
 
-In this phase we want to go over all the functionality we're looking at adding into the app. This will illuminate the models that we'll require to build all the services. We will identify key models and decides on which properties will be useful to have in the application.
+In this phase we want to go over all the functionality we're looking at adding into the app. This will illuminate how we have to build the inter communication methods as well as the models that we'll require to build all the functionality. We will walk through the most important processes required and do a highlevel step list of how the data will move from the client through our backend and back to the client. When this is complete We will identify key models and decides on which properties will be useful to have in the application.
 
-A success for this phase will be a detailed breakdown of the models we'll have in the application as well as the purpose they serve, their properties and in which parts of the system they will be used.
+A success for this phase will be a detailed breakdown of one of the key processes, which models we'll have in the application as well as the purpose they serve, their properties and in which parts of the system they will be used in. This will give us a decent framework to criticise in an engineering meeting to make sure we have no gaps in our system.
 
 ### Phase 2: Data population and development prep
 

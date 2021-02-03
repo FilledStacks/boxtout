@@ -15,9 +15,12 @@
   "main": "lib/index.js",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "camelcase": "^6.2.0",
     "express": "^4.17.1",
     "firebase-admin": "^8.0.0",
-    "firebase-functions": "^3.1.0"
+    "firebase-function-tools": "^2.0.1",
+    "firebase-functions": "^3.1.0",
+    "glob": "^7.1.6"
   },
   "devDependencies": {
     "tslint": "^5.12.0",

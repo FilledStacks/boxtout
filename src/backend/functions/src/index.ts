@@ -1,37 +1,7 @@
-// import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions';
 // import * as admin from 'firebase-admin';
-// import * as express from 'express';
-// import * as bodyParser from "body-parser";
-
-// //initialize firebase inorder to access its services
-// admin.initializeApp(functions.config().firebase);
-
-// //initialize express server
-// const app = express();
-// const main = express();
-
-// //add the path to receive request and set json as bodyParser to process the body 
-// main.use('/', app);
-// main.use(bodyParser.json());
-// main.use(bodyParser.urlencoded({ extended: false }));
-
-// app.get('/hello', async (req, res) => {
-//   try {
-//     res.status(200).json('World!');
-//   } catch (error) {
-//     res.status(500).send(error);
-//   }
-// });
-
-//define google cloud function name
-// exports = module.exports = functions.https.onRequest(main);
-
-// Start writing Firebase Functions
-// https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+import * as express from 'express';
+import * as bodyParser from "body-parser";
 
 /** EXPORT ALL FUNCTIONS
  *
@@ -43,10 +13,11 @@
  *     https://github.com/firebase/functions-samples/issues/170
  */
 const glob = require("glob");
-const camelCase = require("camelcase");
-const files = glob.sync('./**/*.function.js', { cwd: __dirname, ignore: './node_modules/**' });
-for (let f = 0, fl = files.length; f < fl; f++) {
-  const file = files[f];
+
+const functionFiles = glob.sync('./**/*.function.js', { cwd: __dirname, ignore: './node_modules/**' });
+
+for (let f = 0, fl = functionFiles.length; f < fl; f++) {
+  const file = functionFiles[f];
   const groupName = file.split('/')[1];
   console.log(`groupName:${groupName}`);
   console.log(`File: ${file}`);
@@ -66,5 +37,26 @@ for (let f = 0, fl = files.length; f < fl; f++) {
       ...exports[groupName],
       ...require(file)
     }
+  }
+}
+
+const apiFiles = glob.sync('./**/*.api.js', { cwd: __dirname, ignore: './node_modules/**' });
+
+for (let f = 0, fl = apiFiles.length; f < fl; f++) {
+  const file = apiFiles[f];
+  const groupName = file.split('/')[1];
+  console.log(`groupName:${groupName}`);
+  console.log(`File: ${file}`);
+
+  const api = require(file);
+  const app = express();
+
+  app.use('/', api.api);
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
+
+  exports[groupName] = {
+    ...exports[groupName],
+    "api": functions.https.onRequest(app),
   }
 }

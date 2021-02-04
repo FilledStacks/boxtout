@@ -3,7 +3,8 @@ import * as requestTypes from '../constants/requests';
 
 
 /**
- * This class builds an Api using the conventions defined for boxt out
+ * This class builds an Api using the conventions defined for boxt out.
+ * The name of the api should match the name of the folder that it's in.
  */
 export class BoxtOutApi {
   router: express.Router;

@@ -73,7 +73,7 @@ import { GetRequest } from '../../system/constants/requests';
 
 exports.getMenuItems = (req: Request, res: Response) => {
   res.send({
-    orders: [
+    menuItems: [
       { id: 1, name: 'Steak with Jalepeno' },
       { id: 2, name: 'Kiwi and Yoghur bowl' },
     ]
@@ -83,7 +83,7 @@ exports.getMenuItems = (req: Request, res: Response) => {
 exports.requestType = GetRequest;
 ```
 
-In the above code we define an endpoint called `getOrders` as well as a requestType providing the type of http endpoint we're defining. This endpoint will return a list of orders to us when called. This file will be deployed to a the groups resource giving the route of the endpoint **the same name as the file name**. Let go over how to add one of these into the backend then I'll go over how it works and gets to be deployed dynamically.
+In the above code we define an endpoint called `getMenuItems` as well as a requestType providing the type of http endpoint we're defining. This endpoint will return a list of menuItems to us when called. This file will be deployed to a the groups resource giving the route of the endpoint **the same name as the file name**. Let go over how to add one of these into the backend then I'll go over how it works and gets to be deployed dynamically.
 
 1. Go to the resource folder where you want to add a new endpoint
 2. Under the `idle` folder create a new file called `getMenuItems.endpoint.ts`. The name of this file has to match **EXACTLY** the name of the endpoint. And this time it has to end in `.endpoint.ts`. 

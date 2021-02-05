@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { GetRequest } from '../../constants/requests';
+import { GetRequest } from '../../system/constants/requests';
 
 
 // Each endpoint will be defined in its own file for long term maintenance.
@@ -8,7 +8,7 @@ import { GetRequest } from '../../constants/requests';
 
 exports.getOrders = (req: Request, res: Response) => {
   res.send({
-    users: [
+    orders: [
       { id: 1, name: 'Steak with Jalepeno' },
       { id: 2, name: 'Kiwi and Yoghur bowl' },
     ]

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import * as requestTypes from '../constants/requests';
+import * as requestTypes from '../system/constants/requests';
 
 
 /**
@@ -34,7 +34,7 @@ export class BoxtOutApi {
       }
 
       if (endpoint.requestType === undefined) {
-        throw new Error(`No requestType defined for endpoint in ${file}. Please make sure that the endpoint file exports a requestType using the constants in src/constants/requests.ts. We need this value to automatically add the endpoing to the api.`);
+        throw new Error(`No requestType defined for endpoint in ${file}. Please make sure that the endpoint file exports a requestType using the constants in src/system/constants/requests.ts. We need this value to automatically add the endpoing to the api.`);
       }
 
       console.log(`${this.name}Api - add functionName: ${functionName} as ${endpoint.requestType} endpoint.`);

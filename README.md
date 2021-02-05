@@ -3,4 +3,4 @@ An open source food delivery product and service that will be developed on the [
 
 ## Setup
 
-The source code to run the product can be found in the `src/` folder. The code is split into two major sections, backend and clients. The backend folder contains all the functions required to run the backend on firebase. And the clients are the front facing clients that will be connected to the backend. 
+The source code to run the product can be found in the `src/` folder. The code is split into two major sections, backend and clients. The backend folder contains firebase code required to run the backend. Clients are the front facing clients that will be connected to the backend.

@@ -4,7 +4,7 @@ import * as functions from 'firebase-functions';
 
 /**
  * This class helps with setting up the exports for the cloud functions deployment.
- * 
+ *
  * It takes in exports and then adds the required groups and their functions to it for deployment
  * to the cloud functions server.
  */
@@ -50,7 +50,7 @@ export class ExportHelper {
   /**
    * Looks at all .api.js files and adds them to the group they belong in
    */
-  buildIdleApi() {
+  buildRestfulApi() {
     console.log('ExportHelper - Build api cloud functions ... ');
 
     const glob = require("glob");

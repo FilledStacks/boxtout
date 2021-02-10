@@ -22,7 +22,7 @@ export class ExportHelper {
     console.log('ExportHelper - Build reactive cloud functions ... ');
     const glob = require("glob");
     // Get all the files that has .function in the file name
-    const functionFiles = glob.sync('../**/*.function.js', { cwd: __dirname, ignore: './node_modules/**' });
+    const functionFiles = glob.sync( '../**/reactive/*.function.js', { cwd: __dirname, ignore: './node_modules/**' } );
 
     for (let i = 0, fl = functionFiles.length; i < fl; i++) {
       const file = functionFiles[i];
@@ -54,7 +54,7 @@ export class ExportHelper {
     console.log('ExportHelper - Build api cloud functions ... ');
 
     const glob = require("glob");
-    const apiFiles = glob.sync('../**/*.api.js', { cwd: __dirname, ignore: './node_modules/**' });
+    const apiFiles = glob.sync( '../**/restful/*.api.js', { cwd: __dirname, ignore: './node_modules/**' } );
 
     for (let f = 0, fl = apiFiles.length; f < fl; f++) {
       const file = apiFiles[f];

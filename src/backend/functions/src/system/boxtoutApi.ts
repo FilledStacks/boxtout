@@ -21,7 +21,7 @@ export class BoxtOutApi {
   build() {
     const glob = require("glob");
 
-    const endpointFiles = glob.sync(`../${this.name.toLowerCase()}/**/*.endpoint.js`, { cwd: __dirname, ignore: './node_modules/**' });
+    const endpointFiles = glob.sync( `../${ this.name.toLowerCase() }/**/restful/*.endpoint.js`, { cwd: __dirname, ignore: './node_modules/**' } );
     console.log(`build - endpointFiles:${endpointFiles}`);
     for (let f = 0, fl = endpointFiles.length; f < fl; f++) {
       const file = endpointFiles[f];

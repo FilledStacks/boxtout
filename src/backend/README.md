@@ -8,15 +8,15 @@ The biggest "drawback" with Firebase is that it deploys the exports from the sin
 
 # The System
 
-As described in our [System Technical Overview](https://github.com/FilledStacks/boxtout/wiki/System-Technical-Overview#backend-api-and-setup) we have identified two types of cloud functions. 
+As described in our [System Technical Overview](https://github.com/FilledStacks/boxtout/wiki/System-Technical-Overview#backend-api-and-setup) we have identified two types of cloud functions.
 
-- Reactive functions: Cloud functions that will only react to data changing on our system. Firestore collection updates, user auth changes etc. 
-- Idle functions: Which will stay idle until called by a user through an http request. 
+- Reactive functions: Cloud functions that will only react to data changing on our system. Firestore collection updates, user auth changes etc.
+- RESTful functions: Traditional RESTful HTTP API endpoints
 
-The backend folder under `src` contains the entire firebase backend. The functions contains the business logic for the backend. In functions there's a `src` folder. This folder contains the 5 resource groups defined as folders and system folder which will contain code shared between all resources. In the `src` folder there is also an index file. In this file you'll see that we do two things. 
+The backend folder under `src` contains the entire firebase backend. The functions contains the business logic for the backend. In functions there's a `src` folder. This folder contains the 5 resource groups defined as folders and system folder which will contain code shared between all resources. In the `src` folder there is also an index file. In this file you'll see that we do two things.
 
 1. We build the reactive functions
-2. We build the IdleApi
+2. We build the RESTful API
 
 This will keep our index file 4 lines long (for the time being) regardless of how many endpoints and functions we create.
 
@@ -50,20 +50,20 @@ npm run build
 firebase emulators:start --only functions
 ```
 
-If you don't have the emulators make [sure it's installed](https://firebase.google.com/docs/functions/local-emulator#install_the_firebase_cli). We'll be using it for basically all of the development. 
+If you don't have the emulators make [sure it's installed](https://firebase.google.com/docs/functions/local-emulator#install_the_firebase_cli). We'll be using it for basically all of the development.
 
 ### How does it work?
 
-If you open up a file called `exportHelper.ts` you'll see in there is a function called `buildReactiveFunctions`. What this function does is quite simple, The idea I got from [this article by Tarik Huber](https://codeburst.io/organizing-your-firebase-cloud-functions-67dc17b3b0da). 
+If you open up a file called `exportHelper.ts` you'll see in there is a function called `buildReactiveFunctions`. What this function does is quite simple, The idea I got from [this article by Tarik Huber](https://codeburst.io/organizing-your-firebase-cloud-functions-67dc17b3b0da).
 
-1. It gets all relative file paths for any file that ends with `.function.js`. Which is why I mentioned its importance above. 
+1. It gets all relative file paths for any file that ends with `.function.js`. Which is why I mentioned its importance above.
 2. It loops through all those files and gets the `groupName` and then the `functionName`.
 3. Then it creates an exports group using the groupName
 4. Every file under that group gets required and the export is added into the group
 
-This means that when we add a new reactive function all we have to do it go to the resource folder, create the new file following the convention and then it'll automatically be added into the deployed functions! Pretty cool right. Well we have the same kind of setup for the Idle functions.
+This means that when we add a new reactive function all we have to do it go to the resource folder, create the new file following the convention and then it'll automatically be added into the deployed functions! Pretty cool right. Well we have the same kind of setup for the RESTful functions.
 
-## Dynamically adding Idle Api Endpoints
+## Dynamically adding RESTful Api Endpoints
 
 Lets start off with how an endpoint looks in our system.
 
@@ -86,7 +86,7 @@ exports.requestType = GetRequest;
 In the above code we define an endpoint called `getMenuItems` as well as a requestType providing the type of http endpoint we're defining. This endpoint will return a list of menuItems to us when called. This file will be deployed to a the groups resource giving the route of the endpoint **the same name as the file name**. Let go over how to add one of these into the backend then I'll go over how it works and gets to be deployed dynamically.
 
 1. Go to the resource folder where you want to add a new endpoint
-2. Under the `idle` folder create a new file called `getMenuItems.endpoint.ts`. The name of this file has to match **EXACTLY** the name of the endpoint. And this time it has to end in `.endpoint.ts`. 
+2. Under the `restful` folder create a new file called `getMenuItems.endpoint.ts`. The name of this file has to match **EXACTLY** the name of the endpoint. And this time it has to end in `.endpoint.ts`.
 3. Place the code from above in the file and that's it.
 
 The same thing applies for running locally and building. This time we'll use a built in command that performs the build and starts the emulator. Run the following in the functions folder.
@@ -111,13 +111,13 @@ We've added the getMenuItems to the orders resrouces so open the url for `orders
 
 ### How does it work?
 
-This one is a bit more complicated than the reactive functions, but it's not that difficult to understand. If you open up the `ExportHelper` again you'll see a function called `buildIdleApi`. That's where the magic lies.
+This one is a bit more complicated than the reactive functions, but it's not that difficult to understand. If you open up the `ExportHelper` again you'll see a function called `buildRestfulApi`. That's where the magic lies.
 
 1. It looks for all files ending in `.api.js`
 2. It loops through them and gets the `groupName` out to be used
 3. It creates an express application
 4. We get the api file and set the base path to point to the router exported from that api file.
-5. Then we pass that express app to the `onRequest` function which is called when our backend receives any kind of http request to the groups-api endpoint. 
+5. Then we pass that express app to the `onRequest` function which is called when our backend receives any kind of http request to the groups-api endpoint.
 
 Now in number 4 there's actually an extra step. Open up the `_orders.api.ts` file. Here you'll see something similar to the `index.ts` file. Some weird boiler plate that creates a `BoxtOutApi`, gives it a name, calls build then exports the router from it. This is actually doing the same thing as the `ExportHelper` but for files ending in `.endpoint.js`. Open the `build` function from the `BoxtOutApi`. In here we do the following:
 
@@ -128,7 +128,7 @@ Now in number 4 there's actually an extra step. Open up the `_orders.api.ts` fil
 
 And voila! Api endpoints auto magically exported to your backend!
 
-## Why is this so important? 
+## Why is this so important?
 
 Are you really asking this question? The answer should be obvious by now. LOOONG --- TERM --- MAINTENANCE. That's what we're aiming for when building this system. Regardless of the "limitations" developers believe firebase has that has nothing to do with us at this point. We've chosen firebase, we need to build the best backend we can. With this setup you will be able to navigate to ANY endpoint or cloud function using file jump because the name will match. No file will be so large that you have to scroll through a list of other functions to find what you're looking for. Deployment will be easier because you won't have to worry about the paths not being correct or names clashing.
 

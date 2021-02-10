@@ -3,6 +3,6 @@ import { ExportHelper } from './system/exportHelper';
 let exportHelper = new ExportHelper(exports);
 
 exportHelper.buildReactiveFunctions();
-exportHelper.buildIdleApi();
+exportHelper.buildRestfulApi();
 
 exports = exportHelper.exports;

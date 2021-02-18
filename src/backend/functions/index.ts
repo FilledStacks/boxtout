@@ -1,1 +1,0 @@
-exports[folderName] = require(file);

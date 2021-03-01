@@ -1,8 +1,3 @@
-import { ExportHelper } from './system/exportHelper';
+import { FunctionParser } from "firebase-backend";
 
-let exportHelper = new ExportHelper(exports);
-
-exportHelper.buildReactiveFunctions();
-exportHelper.buildRestfulApi();
-
-exports = exportHelper.exports;
+exports = new FunctionParser(__dirname, exports).exports;

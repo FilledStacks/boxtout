@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
-import { GetRequest } from '../../system/constants/requests';
+import { Endpoint, RequestType } from 'firebase-backend';
 
-exports.getMenuItems = (req: Request, res: Response) => {
-  res.send({
-    orders: [
-      { id: 1, name: 'Steak with Jalepeno' },
-      { id: 2, name: 'Kiwi and Yoghur bowl' },
-    ]
-  });
-}
+export default new Endpoint(
+  'getMenuItems',
+  RequestType.GET,
+  (request: Request, response: Response) => {
+    response.send({
+      orders: [
+        { id: 1, name: 'Steak with Jalepeno' },
+        { id: 2, name: 'Kiwi Milkshake' }
+      ]
+    });
+  }
+);
 
-exports.requestType = GetRequest;

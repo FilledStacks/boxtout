@@ -67,7 +67,7 @@ That puts us at a total of 9 pieces of software to be built. Not small at all, a
 
 Let's take a quick look at how we intend to build up the product architecture. This will give us a clear picture of what is dependent on which parts which will eventually lead us to a development plan to start the creation of this system.
 
-![Architecture Dependencies](./resources/images/architecture-dependencies.png)
+![Architecture Dependencies](../resources/images/architecture-dependencies.png)
 
 Lets go over the graph above breaking each dependency down per component / piece of software. We'll go over each part in order of importance in the dependency graph
 

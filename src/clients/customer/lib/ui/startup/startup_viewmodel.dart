@@ -9,8 +9,4 @@ class StartUpViewModel extends BaseViewModel {
   final _nagivationService = locator<NavigationService>();
 
   String title = '';
-
-  void doSomething() {
-    _nagivationService.navigateTo(Routes.secondView);
-  }
 }

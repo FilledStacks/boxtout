@@ -36,7 +36,7 @@ dependencies:
   stacked_firebase_auth: ^0.1.0+1
 
   # Stacked State Management
-  stacked: ^1.9.1
+  stacked: ^1.9.5
   stacked_services:
 
 dev_dependencies:
@@ -44,7 +44,7 @@ dev_dependencies:
     sdk: flutter
 
   build_runner:
-  stacked_generator: ^0.1.1
+  stacked_generator: ^0.2.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -11,9 +11,6 @@ class StartUpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<StartUpViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: model.doSomething,
-        ),
         body: Center(
           child: Text(model.title),
         ),

@@ -1,9 +1,7 @@
 import * as functions from 'firebase-functions';
 
 exports.onOrderDeleted = functions.firestore
-  .document("orders/{orderId}")
+  .document('orders/{orderId}')
   .onDelete(async (snapshot, context) => {
-    console.log(
-      `Order deleted | orderId:${snapshot.id}`
-    );
+    console.log(`Order deleted | orderId:${snapshot.id}`);
   });

@@ -7,22 +7,41 @@ import 'package:stacked_services/stacked_services.dart';
 abstract class AuthenticationViewModel extends FormViewModel {
   final navigationService = locator<NavigationService>();
 
+  final firebaseAuthenticationService =
+      locator<FirebaseAuthenticationService>();
+
   final String successRoute;
   AuthenticationViewModel({@required this.successRoute});
 
   @override
   void setFormStatus() {}
 
+  Future<FirebaseAuthenticationResult> runAuthentication();
+
   Future saveData() async {
     final result = await runBusyFuture(runAuthentication());
+    _handleAuthenticationResponse(result);
+  }
 
-    if (!result.hasError) {
+  Future<void> useGoogleAuthentication() async {
+    final result = await firebaseAuthenticationService.signInWithGoogle();
+    _handleAuthenticationResponse(result);
+  }
+
+  Future<void> useAppleAuthentication() async {
+    final result = await firebaseAuthenticationService.signInWithApple();
+    _handleAuthenticationResponse(result);
+  }
+
+  /// Checks if the result has an error. If it doesn't we navigate to the success view
+  /// else we show the friendly validation message.
+  void _handleAuthenticationResponse(FirebaseAuthenticationResult authResult) {
+    if (!authResult.hasError) {
       // navigate to success route
       navigationService.replaceWith(successRoute);
     } else {
-      setValidationMessage(result.errorMessage);
+      setValidationMessage(authResult.errorMessage);
+      notifyListeners();
     }
   }
-
-  Future<FirebaseAuthenticationResult> runAuthentication();
 }

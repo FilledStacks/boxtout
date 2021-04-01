@@ -1,6 +1,7 @@
 import 'package:customer/ui/shared/styles.dart';
 import 'package:customer/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:auth_buttons/auth_buttons.dart';
 
 class AuthenticationLayout extends StatelessWidget {
   final String title;
@@ -12,6 +13,8 @@ class AuthenticationLayout extends StatelessWidget {
   final Function onCreateAccountTapped;
   final Function onForgotPassword;
   final Function onBackPressed;
+  final Function onSignInWithApple;
+  final Function onSignInWithGoogle;
   final String validationMessage;
   final bool busy;
 
@@ -25,6 +28,8 @@ class AuthenticationLayout extends StatelessWidget {
     this.onCreateAccountTapped,
     this.onForgotPassword,
     this.onBackPressed,
+    this.onSignInWithApple,
+    this.onSignInWithGoogle,
     this.validationMessage,
     this.showTermsText = false,
     this.busy = false,
@@ -134,7 +139,35 @@ class AuthenticationLayout extends StatelessWidget {
               'By signing up you agree to our terms, conditions and privacy policy.',
               style: ktsMediumGreyBodyText,
               textAlign: TextAlign.center,
-            )
+            ),
+          verticalSpaceRegular,
+          Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Or',
+                style: ktsMediumGreyBodyText,
+              )),
+          verticalSpaceRegular,
+          AppleAuthButton(
+            onPressed: onSignInWithApple,
+            // darkMode: true,
+            iconSize: 24,
+            height: 50,
+            text: 'CONTINUE WITH APPLE',
+            textStyle: TextStyle(color: Colors.white),
+            style: AuthButtonStyle.secondary,
+          ),
+          verticalSpaceRegular,
+          GoogleAuthButton(
+            onPressed: onSignInWithGoogle,
+            buttonColor: Color(0xff4285F4),
+            iconSize: 24,
+            iconBackground: Colors.white,
+            style: AuthButtonStyle.secondary,
+            height: 50,
+            textStyle: TextStyle(color: Colors.white),
+            text: 'CONTINUE WITH GOOGLE',
+          )
         ],
       ),
     );

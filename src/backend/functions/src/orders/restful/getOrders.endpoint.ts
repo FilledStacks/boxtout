@@ -8,9 +8,8 @@ export default new Endpoint(
     response.send({
       orders: [
         { id: 1, name: 'Steak with Jalepeno' },
-        { id: 2, name: 'Kiwi Milkshake' }
-      ]
+        { id: 2, name: 'Kiwi Milkshake' },
+      ],
     });
   }
 );
-

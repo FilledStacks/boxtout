@@ -4,7 +4,7 @@ In this document I will detail the product that we’ll be building on the Fille
 
 ## Introduction
 
-What we’ll be building is a Product called BoxtOut - Pronounced Boxed Out. which is a play on Boxing a meal and sending it Out to a Customer. I know, not very creative, but I promise I’ll be more creative when it comes to the product itself. It will be a complete food delivery product that I will be building completely open source and providing tutorials along the way for all the functionality built in the app. 
+What we’ll be building is a Product called BoxtOut - Pronounced Boxed Out. which is a play on Boxing a meal and sending it Out to a Customer. I know, not very creative, but I promise I’ll be more creative when it comes to the product itself. It will be a complete food delivery product that I will be building completely open source and providing tutorials along the way for all the functionality built in the app.
 
 The reason I chose a Food delivery app is because:
 
@@ -20,11 +20,11 @@ Let's look at what we’ll require at minimum to build this product and have it 
 
 ### Customer Mobile Application
 
-This is the application that the customer will be using to order their food. To have a customer we need a way to manage all the users infomation. So we need a **User Manager**. In addition to that, if we want to order we need a **backend to manage orders**. We’ll build that using Firestore DB in the Firebase suite. But before the user can place any order they need to be able to choose a product. So the **backend should also store all the products**, we’ll use Firestore DB for that as well. But where do these products come from and who do they belong to? Well, we’ll need a **Restaurant manager** to allow restaurants to manage their own menu’s, opening times, locations and general information. 
+This is the application that the customer will be using to order their food. To have a customer we need a way to manage all the users infomation. So we need a **User Manager**. In addition to that, if we want to order we need a **backend to manage orders**. We’ll build that using Firestore DB in the Firebase suite. But before the user can place any order they need to be able to choose a product. So the **backend should also store all the products**, we’ll use Firestore DB for that as well. But where do these products come from and who do they belong to? Well, we’ll need a **Restaurant manager** to allow restaurants to manage their own menu’s, opening times, locations and general information.
 
-But before we can even capture that order we need to take payment. So we’ll need to build a **payment system** that can process credit card payments, attach receipts and make sure that there’s no faulty transactions on the orders. 
+But before we can even capture that order we need to take payment. So we’ll need to build a **payment system** that can process credit card payments, attach receipts and make sure that there’s no faulty transactions on the orders.
 
-So now we have the information that will be shown in the app through the Restaurant manager, all that information is stored on the backend Firestore DB. When the user places an order on the Customer app it goes into our order management backend system which will be built using firebase functions and the order is placed. Now what? 
+So now we have the information that will be shown in the app through the Restaurant manager, all that information is stored on the backend Firestore DB. When the user places an order on the Customer app it goes into our order management backend system which will be built using firebase functions and the order is placed. Now what?
 
 ### Restaurant Application
 
@@ -32,13 +32,13 @@ This application goes into the Restaurant that’s signed up to our service so t
 
 ### Driver Application
 
-This application is specifically designed for the drivers. It’s to notify them if they have an order to pick up. They will get a firebase notification which will tell them there’s an order up for grabs in their area. They can then accept the order which will be assigned to them and they will get the locations of where to pick up and where to drop off. The driver app will complete the order process and mark the order as delivered and completed. What about the drivers tip? 
+This application is specifically designed for the drivers. It’s to notify them if they have an order to pick up. They will get a firebase notification which will tell them there’s an order up for grabs in their area. They can then accept the order which will be assigned to them and they will get the locations of where to pick up and where to drop off. The driver app will complete the order process and mark the order as delivered and completed. What about the drivers tip?
 
 Well the tip is sent from the customer app in the order but we’ll have to process that and when the driver has delivered we’ll assign that tip to their account for payout at the end of the month. For that we’ll need some specific functionality for **Tip processing**. Lets tally up everything mentioned above that has to be built.
 
 ### Backend to manage orders
 
-Since everything will be done on Firebase, each of the “backend” systems will be a serverless set of cloud functions that we’ll deploy to manage these parts for us. The order management system will be a set of serverless functions that will focus only on managing the orders. It will take the order in, send the required information to the payment processor, send the information to the tip processor, Add the order into the DB, update the order status accordingly and send out the appropriate notifications. 
+Since everything will be done on Firebase, each of the “backend” systems will be a serverless set of cloud functions that we’ll deploy to manage these parts for us. The order management system will be a set of serverless functions that will focus only on managing the orders. It will take the order in, send the required information to the payment processor, send the information to the tip processor, Add the order into the DB, update the order status accordingly and send out the appropriate notifications.
 
 ### Backend to manage products
 
@@ -46,7 +46,7 @@ This set of serverless functions will be dedicated to the management of products
 
 ### Restaurant Management System
 
-This application will be used by restaurants or the sales representatives to upload the restaurant products and create their menu’s. We will be able to update opening times, product availability, product images, product options, etc. 
+This application will be used by restaurants or the sales representatives to upload the restaurant products and create their menu’s. We will be able to update opening times, product availability, product images, product options, etc.
 
 ### Payment Processor
 
@@ -60,8 +60,7 @@ This part can be apart of the Payment processing but I think we'll keep it separ
 
 This service will manage all the functionality and data relating to the user. Some things to mention will be to update user information, store the user data, provide functionality for any kind of credit or reward system, store coupons used, etc. Anything relating to the user will be done by this service
 
-That puts us at a total of 9 pieces of software to be built. Not small at all, as you’ll see when we tackle each of these parts, they will all have their own internal architecture setup to make sure they fit well into the overall product architecture. 
-
+That puts us at a total of 9 pieces of software to be built. Not small at all, as you’ll see when we tackle each of these parts, they will all have their own internal architecture setup to make sure they fit well into the overall product architecture.
 
 ## Product Architecture
 
@@ -85,11 +84,11 @@ Everything else has a smaller dependency Footprint than the two above. The user 
 
 ### Payment Processor
 
-This processor is depended on by only the Order Management system. When orders are placed we will first process the payment and then continue with the order placement. This can be mocked out for now to allow for a more rapid development pace. 
+This processor is depended on by only the Order Management system. When orders are placed we will first process the payment and then continue with the order placement. This can be mocked out for now to allow for a more rapid development pace.
 
 ### Customer App
 
-The customer app has no dependencies on it, but it depends heavily on multiple backend software to have been developed, or at leas stubbed out. It need to read all the product information (so we'll need products), it needs to be able to place an order (we'll need the order management) and it needs to be able to sign up a User (user management). 
+The customer app has no dependencies on it, but it depends heavily on multiple backend software to have been developed, or at leas stubbed out. It need to read all the product information (so we'll need products), it needs to be able to place an order (we'll need the order management) and it needs to be able to sign up a User (user management).
 
 ### Restaurant App
 
@@ -105,16 +104,15 @@ This app is dependency on the Product Management, but it's purpose can be served
 
 The order of the product pieces written down above is the order of importance of the development. BUT, that still does not mean that we have to develop the entire part for the functionality to be complete. More of that is explained in the phases below.
 
-
 ## Development Phases
 
-This section describes the phases of development where we will have "Major" version releases. A product of this size is never built in one go, in fact, the separate components as shown above is not even built to completion in any phase. We've moved away from Waterfall a while back and the most successful software companies do incremental work / updates given we're almost the only field in engineering that can do that without any additional cost. We'll have multiple phases marked by specific functionality being in that phase which will give us a nice break down of what to work on in order to complete the development of this application. 
+This section describes the phases of development where we will have "Major" version releases. A product of this size is never built in one go, in fact, the separate components as shown above is not even built to completion in any phase. We've moved away from Waterfall a while back and the most successful software companies do incremental work / updates given we're almost the only field in engineering that can do that without any additional cost. We'll have multiple phases marked by specific functionality being in that phase which will give us a nice break down of what to work on in order to complete the development of this application.
 
 The phases are all dependent on the architecture dependency graph you see above, the parts with the most dependencies will most likely be built first so we can allow for multiple other parts to be worked on as well. Lets go over a basic high level view of some of the phases.
 
 ### Phase 0: Technical architecture overview and technology stack setup
 
-This is the high level technical phase of the planning that was done above. We need to establish how we will be building these management services, how they will be deployed, how the source code will be managed and how we plan on extending functionality / deprecating older functionality. This is an important part since the services will be the major feature of the product. We are skilled at developing client applications, and stacked is our preferred architecture, with this planning we'll need to setup the backend in such a way that it's easy to unit test, easy to deploy, easy to manage, easy to update and easy to debug in the live production state. 
+This is the high level technical phase of the planning that was done above. We need to establish how we will be building these management services, how they will be deployed, how the source code will be managed and how we plan on extending functionality / deprecating older functionality. This is an important part since the services will be the major feature of the product. We are skilled at developing client applications, and stacked is our preferred architecture, with this planning we'll need to setup the backend in such a way that it's easy to unit test, easy to deploy, easy to manage, easy to update and easy to debug in the live production state.
 
 This phase will be concluded when we have a detailed plan of the technical setup and technical architecture overview as well as the deployment and technology stack overview.
 
@@ -128,7 +126,7 @@ A success for this phase will be a detailed breakdown of the models we'll have i
 
 In this phase we are still not writing code haha. Planning and structure is important for such a large system, and we're still going to miss things. Here we will use the models defined above and generate some fake data for use to use when we finally do start the development. This process will give us a first review of our database structure we defined above and will show any flaws that we might have made in terms of how to store everything. This will also be very helpful during the development to ensure that we have data to work it.
 
-A success for this phase will be a database with enough information in it to allow us to display some basic product when we get to that point. 
+A success for this phase will be a database with enough information in it to allow us to display some basic product when we get to that point.
 
 ### Phase 3: Customer App Setup and Authentication
 

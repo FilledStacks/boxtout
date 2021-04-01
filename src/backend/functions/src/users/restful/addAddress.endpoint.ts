@@ -8,4 +8,3 @@ export default new Endpoint(
     response.status(200).send();
   }
 );
-

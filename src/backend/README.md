@@ -26,7 +26,7 @@ A reactive function looks something like this
 
 ```ts
 exports.onOrderCreated = functions.firestore
-  .document("orders/{orderId}")
+  .document('orders/{orderId}')
   .onCreate(async (snapshot) => {
     console.log(`order | orderId:${snapshot.id}`);
   });
@@ -37,7 +37,7 @@ What we're saying above is. Export a cloudFunction called `onOrderCreated`. This
 1. Go to the resource folder you want to add a function to
 2. In the `reactive` folder create a new file
 3. Name the file the name of the function that will be exported (not important but recommended for maintenance tax on the memory).
-  In the above scenario the file will be called `onOrderCreated.function.ts`. The `.function.ts` is important, more on this later
+   In the above scenario the file will be called `onOrderCreated.function.ts`. The `.function.ts` is important, more on this later
 4. Place your function inside the file exported as shown above. The exported function name has to match the fileName as mentioned in #3.
 
 That's it, there's nothing else you have to do. When you want to run the app you to build it then run it locally. You can do that by running the following commands inside the functions folder.
@@ -76,9 +76,9 @@ exports.getMenuItems = (req: Request, res: Response) => {
     menuItems: [
       { id: 1, name: 'Steak with Jalepeno' },
       { id: 2, name: 'Kiwi and Yoghur bowl' },
-    ]
+    ],
   });
-}
+};
 
 exports.requestType = GetRequest;
 ```
@@ -122,7 +122,7 @@ This one is a bit more complicated than the reactive functions, but it's not tha
 Now in number 4 there's actually an extra step. Open up the `_orders.api.ts` file. Here you'll see something similar to the `index.ts` file. Some weird boiler plate that creates a `BoxtOutApi`, gives it a name, calls build then exports the router from it. This is actually doing the same thing as the `ExportHelper` but for files ending in `.endpoint.js`. Open the `build` function from the `BoxtOutApi`. In here we do the following:
 
 1. Get all the files ending in `.endpoint.js`
-2. Get the functionName from the file. *This is why the function name **HAS** to match the endpoint name being exported*
+2. Get the functionName from the file. _This is why the function name **HAS** to match the endpoint name being exported_
 3. Add a new router path using the function name above and then exported function
 4. The router path type is determined by the exported `requestType` value.
 
@@ -137,5 +137,3 @@ This is setup to make it so that when we want a new backend functionality all we
 ## Join the discussion and development!
 
 If you like this setup or document, this entire project is being developed on the [FilledStacks YouTube channel](https://www.youtube.com/filledstacks). In addition to that there will be a discussion probably weekly on the decisions we need to make for the project aaaaaaand, we have a [Slack group](https://join.slack.com/t/filledstacks/shared_invite/zt-kjy2db0n-XJSiovQ69kVc1xcvekjA3w) with a dedicated boxtout channel where you can come and chat about the project. Please join in, I would really like the discussions and any contributions that you'd like to make.
-
-

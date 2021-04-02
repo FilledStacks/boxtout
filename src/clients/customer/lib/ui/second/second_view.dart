@@ -5,7 +5,7 @@ import 'package:stacked/stacked.dart';
 // UI CODE ONLY
 
 class SecondView extends StatelessWidget {
-  const SecondView({Key key}) : super(key: key);
+  const SecondView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

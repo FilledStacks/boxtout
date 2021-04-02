@@ -79,12 +79,12 @@ class StackedRouter extends RouterBase {
 
 /// CreateAccountView arguments holder class
 class CreateAccountViewArguments {
-  final Key key;
+  final Key? key;
   CreateAccountViewArguments({this.key});
 }
 
 /// LoginView arguments holder class
 class LoginViewArguments {
-  final Key key;
+  final Key? key;
   LoginViewArguments({this.key});
 }

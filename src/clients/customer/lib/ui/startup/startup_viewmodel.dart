@@ -6,7 +6,7 @@ import 'package:stacked_services/stacked_services.dart';
 // "BUSINESS LOGIC" AND VIEW STATE
 
 class StartUpViewModel extends BaseViewModel {
-  final _nagivationService = locator<NavigationService>();
+  final NavigationService? _nagivationService = locator<NavigationService>();
 
   String title = '';
 }

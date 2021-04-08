@@ -6,18 +6,18 @@ import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'login_view.form.dart';
 
 class LoginViewModel extends AuthenticationViewModel {
-  final _firebaseAuthenticationService =
+  final FirebaseAuthenticationService? _firebaseAuthenticationService =
       locator<FirebaseAuthenticationService>();
 
   LoginViewModel() : super(successRoute: Routes.addressSelectionView);
 
   @override
   Future<FirebaseAuthenticationResult> runAuthentication() =>
-      _firebaseAuthenticationService.loginWithEmail(
-        email: emailValue,
-        password: passwordValue,
+      _firebaseAuthenticationService!.loginWithEmail(
+        email: emailValue!,
+        password: passwordValue!,
       );
 
   void navigateToCreateAccount() =>
-      navigationService.navigateTo(Routes.createAccountView);
+      navigationService!.navigateTo(Routes.createAccountView);
 }

@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:auth_buttons/auth_buttons.dart';
 
 class AuthenticationLayout extends StatelessWidget {
-  final String title;
-  final String subtitle;
-  final String mainButtonTitle;
-  final Widget form;
+  final String? title;
+  final String? subtitle;
+  final String? mainButtonTitle;
+  final Widget? form;
   final bool showTermsText;
-  final Function onMainButtonTapped;
-  final Function onCreateAccountTapped;
-  final Function onForgotPassword;
-  final Function onBackPressed;
-  final Function onSignInWithApple;
-  final Function onSignInWithGoogle;
-  final String validationMessage;
+  final void Function()? onMainButtonTapped;
+  final void Function()? onCreateAccountTapped;
+  final void Function()? onForgotPassword;
+  final void Function()? onBackPressed;
+  final void Function()? onSignInWithApple;
+  final void Function()? onSignInWithGoogle;
+  final String? validationMessage;
   final bool busy;
 
   const AuthenticationLayout({
-    Key key,
+    Key? key,
     this.title,
     this.subtitle,
     this.mainButtonTitle,
@@ -54,7 +54,7 @@ class AuthenticationLayout extends StatelessWidget {
               onPressed: onBackPressed,
             ),
           Text(
-            title,
+            title!,
             style: TextStyle(fontSize: 34),
           ),
           verticalSpaceSmall,
@@ -63,13 +63,13 @@ class AuthenticationLayout extends StatelessWidget {
             child: SizedBox(
               width: screenWidthPercentage(context, percentage: 0.7),
               child: Text(
-                subtitle,
+                subtitle!,
                 style: ktsMediumGreyBodyText,
               ),
             ),
           ),
           verticalSpaceRegular,
-          form,
+          form!,
           verticalSpaceRegular,
           if (onForgotPassword != null)
             Align(
@@ -86,7 +86,7 @@ class AuthenticationLayout extends StatelessWidget {
           verticalSpaceRegular,
           if (validationMessage != null)
             Text(
-              validationMessage,
+              validationMessage!,
               style: TextStyle(
                 color: Colors.red,
                 fontSize: kBodyTextSize,
@@ -108,7 +108,7 @@ class AuthenticationLayout extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation(Colors.white),
                     )
                   : Text(
-                      mainButtonTitle,
+                      mainButtonTitle!,
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

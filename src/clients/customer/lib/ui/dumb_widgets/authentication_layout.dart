@@ -149,7 +149,7 @@ class AuthenticationLayout extends StatelessWidget {
               )),
           verticalSpaceRegular,
           AppleAuthButton(
-            onPressed: onSignInWithApple,
+            onPressed: onSignInWithApple ?? () {},
             // darkMode: true,
             iconSize: 24,
             height: 50,
@@ -159,7 +159,7 @@ class AuthenticationLayout extends StatelessWidget {
           ),
           verticalSpaceRegular,
           GoogleAuthButton(
-            onPressed: onSignInWithGoogle,
+            onPressed: onSignInWithGoogle ?? () {},
             buttonColor: Color(0xff4285F4),
             iconSize: 24,
             iconBackground: Colors.white,

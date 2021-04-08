@@ -1,11 +1,10 @@
 import 'package:customer/app/app.locator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_firebase_auth/stacked_firebase_auth.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 abstract class AuthenticationViewModel extends FormViewModel {
-  final NavigationService? navigationService = locator<NavigationService>();
+  final navigationService = locator<NavigationService>();
 
   final firebaseAuthenticationService =
       locator<FirebaseAuthenticationService>();
@@ -38,7 +37,7 @@ abstract class AuthenticationViewModel extends FormViewModel {
   void _handleAuthenticationResponse(FirebaseAuthenticationResult authResult) {
     if (!authResult.hasError) {
       // navigate to success route
-      navigationService!.replaceWith(successRoute);
+      navigationService.replaceWith(successRoute);
     } else {
       setValidationMessage(authResult.errorMessage);
       notifyListeners();

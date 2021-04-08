@@ -1,5 +1,4 @@
 import 'package:customer/app/app.locator.dart';
-import 'package:customer/app/app.router.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 

@@ -19,5 +19,5 @@ class LoginViewModel extends AuthenticationViewModel {
       );
 
   void navigateToCreateAccount() =>
-      navigationService!.navigateTo(Routes.createAccountView);
+      navigationService.navigateTo(Routes.createAccountView);
 }

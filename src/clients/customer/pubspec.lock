@@ -517,7 +517,7 @@ packages:
       name: stacked_firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.1"
+    version: "0.2.2+1"
   stacked_generator:
     dependency: "direct dev"
     description:

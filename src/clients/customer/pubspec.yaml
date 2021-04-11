@@ -33,7 +33,7 @@ dependencies:
   firebase_auth: ^1.0.1
 
   # Authentication
-  stacked_firebase_auth: ^0.2.1
+  stacked_firebase_auth: ^0.2.2+1
 
   # Stacked State Management
   stacked: ^2.0.0

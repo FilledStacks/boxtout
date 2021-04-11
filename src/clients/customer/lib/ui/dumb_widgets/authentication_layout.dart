@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:customer/ui/shared/styles.dart';
 import 'package:customer/ui/shared/ui_helpers.dart';
 import 'package:flutter/material.dart';
@@ -148,15 +150,16 @@ class AuthenticationLayout extends StatelessWidget {
                 style: ktsMediumGreyBodyText,
               )),
           verticalSpaceRegular,
-          AppleAuthButton(
-            onPressed: onSignInWithApple ?? () {},
-            // darkMode: true,
-            iconSize: 24,
-            height: 50,
-            text: 'CONTINUE WITH APPLE',
-            textStyle: TextStyle(color: Colors.white),
-            style: AuthButtonStyle.secondary,
-          ),
+          if (Platform.isIOS)
+            AppleAuthButton(
+              onPressed: onSignInWithApple ?? () {},
+              // darkMode: true,
+              iconSize: 24,
+              height: 50,
+              text: 'CONTINUE WITH APPLE',
+              textStyle: TextStyle(color: Colors.white),
+              style: AuthButtonStyle.secondary,
+            ),
           verticalSpaceRegular,
           GoogleAuthButton(
             onPressed: onSignInWithGoogle ?? () {},

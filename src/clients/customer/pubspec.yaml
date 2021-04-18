@@ -42,12 +42,20 @@ dependencies:
   # UI packages
   auth_buttons: ^1.0.0
 
+  # data models
+  freezed_annotation: ^0.14.1
+  json_annotation: ^4.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   build_runner:
   stacked_generator: ^0.3.1-nullsafety.3
+
+  # data models
+  freezed: ^0.14.1+2
+  json_serializable: ^4.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

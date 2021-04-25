@@ -31,11 +31,12 @@ mixin $CreateAccountView on StatelessWidget {
 
   /// Updates the formData on the FormViewModel
   void _updateFormData(FormViewModel model) => model.setData(
-        {
-          FullNameValueKey: fullNameController.text,
-          EmailValueKey: emailController.text,
-          PasswordValueKey: passwordController.text,
-        },
+        model.formValueMap
+          ..addAll({
+            FullNameValueKey: fullNameController.text,
+            EmailValueKey: emailController.text,
+            PasswordValueKey: passwordController.text,
+          }),
       );
 
   /// Calls dispose on all the generated controllers and focus nodes
@@ -52,4 +53,10 @@ extension ValueProperties on FormViewModel {
   String? get fullNameValue => this.formValueMap[FullNameValueKey];
   String? get emailValue => this.formValueMap[EmailValueKey];
   String? get passwordValue => this.formValueMap[PasswordValueKey];
+
+  bool get hasFullName => this.formValueMap.containsKey(FullNameValueKey);
+  bool get hasEmail => this.formValueMap.containsKey(EmailValueKey);
+  bool get hasPassword => this.formValueMap.containsKey(PasswordValueKey);
 }
+
+extension Methods on FormViewModel {}

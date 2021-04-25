@@ -31,12 +31,13 @@ dependencies:
   # Firebase
   firebase_core: ^1.0.2
   firebase_auth: ^1.0.1
+  cloud_firestore: ^1.0.5
 
   # Authentication
   stacked_firebase_auth: ^0.2.2+1
 
   # Stacked State Management
-  stacked: ^2.0.0
+  stacked: ^2.1.0
   stacked_services: ^0.8.0-nullsafety.1
 
   # UI packages
@@ -51,7 +52,7 @@ dev_dependencies:
     sdk: flutter
 
   build_runner:
-  stacked_generator: ^0.3.1-nullsafety.3
+  stacked_generator: ^0.4.1
 
   # data models
   freezed: ^0.14.1+2

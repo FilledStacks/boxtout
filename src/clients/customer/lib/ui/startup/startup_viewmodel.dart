@@ -17,7 +17,7 @@ class StartUpViewModel extends BaseViewModel {
     // We want to ensure that the time we get "into the app" that we have a current user
     // if we don't then we navigate to the Auth view for safety. This will help avoid
     // any weird states.
-    if (!_userService.hasLoggedInUser) {
+    if (_userService.hasLoggedInUser) {
       log.v('We have a user session on disk. Sync the user profile ... ');
       await _userService.syncUserAccount();
 

@@ -10,10 +10,11 @@ import 'package:stacked_services/stacked_services.dart';
 abstract class AuthenticationViewModel extends FormViewModel {
   final log = getLogger('AuthenticationViewModel');
 
+  final userService = locator<UserService>();
   final navigationService = locator<NavigationService>();
+
   final firebaseAuthenticationService =
       locator<FirebaseAuthenticationService>();
-  final userService = locator<UserService>();
 
   final String successRoute;
   AuthenticationViewModel({required this.successRoute});
@@ -24,13 +25,12 @@ abstract class AuthenticationViewModel extends FormViewModel {
   Future<FirebaseAuthenticationResult> runAuthentication();
 
   Future saveData() async {
-    log.i('values:$formValueMap');
+    log.i('valued:$formValueMap');
 
     try {
-      final result = await runBusyFuture(
-        runAuthentication(),
-        throwException: true,
-      );
+      final result =
+          await runBusyFuture(runAuthentication(), throwException: true);
+
       await _handleAuthenticationResponse(result);
     } on FirestoreApiException catch (e) {
       log.e(e.toString());
@@ -67,15 +67,16 @@ abstract class AuthenticationViewModel extends FormViewModel {
           email: user.email,
         ),
       );
+
       // navigate to success route
       navigationService.replaceWith(successRoute);
     } else {
-      if (authResult.user != null) {
+      if (!authResult.hasError && authResult.user == null) {
         log.wtf(
-            'We have no error but the user is null. This should not be happening');
+            'We have no error but the uer is null. This should not be happening');
       }
 
-      log.w('Authentication Failed; ${authResult.errorMessage}');
+      log.w('Authentication Failed: ${authResult.errorMessage}');
 
       setValidationMessage(authResult.errorMessage);
       notifyListeners();

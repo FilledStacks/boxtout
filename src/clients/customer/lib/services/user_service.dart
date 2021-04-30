@@ -15,6 +15,8 @@ class UserService {
 
   User get currentUser => _currentUser!;
 
+  bool get hasLoggedInUser => _firebaseAuthenticationService.hasUser;
+
   Future<void> syncUserAccount() async {
     final firebaseUserId =
         _firebaseAuthenticationService.firebaseAuth.currentUser!.uid;

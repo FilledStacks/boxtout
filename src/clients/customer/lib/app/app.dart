@@ -11,10 +11,10 @@ import 'package:stacked_services/stacked_services.dart';
 
 @StackedApp(
   routes: [
-    MaterialRoute(page: StartUpView),
+    MaterialRoute(page: StartUpView, initial: true),
     CupertinoRoute(page: AddressSelectionView),
     CupertinoRoute(page: CreateAccountView),
-    CupertinoRoute(page: LoginView, initial: true),
+    CupertinoRoute(page: LoginView),
     CupertinoRoute(page: HomeView),
   ],
   dependencies: [

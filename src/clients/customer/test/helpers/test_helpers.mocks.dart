@@ -33,14 +33,14 @@ class MockUserService extends _i1.Mock implements _i3.UserService {
           .noSuchMethod(Invocation.getter(#hasLoggedInUser), returnValue: false)
       as bool);
   @override
-  _i4.Future<void> syncOrCreateUserAccount({_i2.User? user}) =>
-      (super.noSuchMethod(
-          Invocation.method(#syncOrCreateUserAccount, [], {#user: user}),
+  _i4.Future<void> syncUserAccount() =>
+      (super.noSuchMethod(Invocation.method(#syncUserAccount, []),
           returnValue: Future<void>.value(null),
           returnValueForMissingStub: Future.value()) as _i4.Future<void>);
   @override
-  _i4.Future<void> syncUserAccount() =>
-      (super.noSuchMethod(Invocation.method(#syncUserAccount, []),
+  _i4.Future<void> syncOrCreateUserAccount({_i2.User? user}) =>
+      (super.noSuchMethod(
+          Invocation.method(#syncOrCreateUserAccount, [], {#user: user}),
           returnValue: Future<void>.value(null),
           returnValueForMissingStub: Future.value()) as _i4.Future<void>);
 }

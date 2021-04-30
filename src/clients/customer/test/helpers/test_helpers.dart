@@ -8,8 +8,6 @@ import 'package:stacked_services/stacked_services.dart';
 import 'test_helpers.mocks.dart';
 
 @GenerateMocks([], customMocks: [
-  // If we don't supply returnNullOnMissingStub then we'll get an exception when
-  // a non-stubbed method is called.
   MockSpec<UserService>(returnNullOnMissingStub: true),
   MockSpec<NavigationService>(returnNullOnMissingStub: true),
 ])
@@ -19,14 +17,8 @@ UserService getAndRegisterUserService({
 }) {
   _removeRegistrationIfExists<UserService>();
   final service = MockUserService();
-
   when(service.hasLoggedInUser).thenReturn(hasLoggedInUser);
-  when(service.currentUser).thenReturn(currentUser ??
-      User(
-        id: 'default_user',
-        email: 'no@email.com',
-      ));
-
+  when(service.currentUser).thenReturn(currentUser ?? User(id: 'default_user'));
   locator.registerSingleton<UserService>(service);
   return service;
 }
@@ -43,7 +35,7 @@ void registerServices() {
   getAndRegisterNavigationService();
 }
 
-void unregisterService() {
+void unregisterServices() {
   locator.unregister<UserService>();
   locator.unregister<NavigationService>();
 }

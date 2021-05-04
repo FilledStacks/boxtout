@@ -81,7 +81,7 @@ class AddressSelectionView extends StatelessWidget with $AddressSelectionView {
                 onChanged: (value) {
                   EasyDebounce.debounce(
                     model.debounceId,
-                    Duration(milliseconds: 750),
+                    Duration(milliseconds: 500),
                     () => model.search(value),
                   );
                 },

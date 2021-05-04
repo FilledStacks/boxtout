@@ -48,6 +48,11 @@ dependencies:
   freezed_annotation: ^0.14.1
   json_annotation: ^4.0.1
 
+  geolocator: ^7.0.3
+  google_maps_webservice: ^0.0.20-nullsafety.4
+  uuid: ^3.0.4
+  tuple: ^2.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

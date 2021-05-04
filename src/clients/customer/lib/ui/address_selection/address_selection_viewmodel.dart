@@ -1,8 +1,7 @@
 import 'package:customer/app/app.locator.dart';
 import 'package:customer/app/app.logger.dart';
 import 'package:customer/app/app.router.dart';
-import 'package:customer/models/application_models.dart';
-import 'package:customer/services/places_service.dart';
+import 'package:places_service/places_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 

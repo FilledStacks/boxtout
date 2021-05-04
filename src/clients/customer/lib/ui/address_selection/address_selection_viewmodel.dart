@@ -34,6 +34,11 @@ class AddressSelectionViewModel extends FormViewModel {
     _navigationService.replaceWith(Routes.homeView);
   }
 
+  void resetDefaultSetup() {
+    selection = '';
+    notifyListeners();
+  }
+
   void useCurrentLocation() {
     selection = CURRENT_LOCATION;
     notifyListeners();

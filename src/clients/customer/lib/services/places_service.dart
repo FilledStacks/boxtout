@@ -1,5 +1,6 @@
 import 'package:customer/app/app.logger.dart';
 import 'package:customer/models/application_models.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart' as webservice;
 import 'package:tuple/tuple.dart';
@@ -10,8 +11,7 @@ class PlacesService {
   final _uuid = Uuid();
 
   final _places = webservice.GoogleMapsPlaces(
-    // TODO move this apiKey out of here
-    apiKey: 'AIzaSyCWQBbiJ1kQJmzM5Eo-AkwZ3OBcnBbuMCE',
+    apiKey: env['GOOGLE_MAPS_API_KEY'],
   );
 
   late Location _currentPosition;

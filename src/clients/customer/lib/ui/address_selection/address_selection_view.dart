@@ -104,8 +104,8 @@ class AddressSelectionView extends StatelessWidget with $AddressSelectionView {
 
                             return ListTile(
                               leading: Icon(CupertinoIcons.location_fill),
-                              title: Text(result.mainText!),
-                              subtitle: Text(result.secondaryText!),
+                              title: Text(result.mainText ?? ''),
+                              subtitle: Text(result.secondaryText ?? ''),
                               onTap: () {
                                 model.onSelectResult(result);
                                 addressController.clear();

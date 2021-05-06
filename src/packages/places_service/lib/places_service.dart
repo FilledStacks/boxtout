@@ -1,35 +1,40 @@
-import 'package:customer/app/app.logger.dart';
-import 'package:customer/models/application_models.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+library places_service;
+
+export 'models/application_models.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_webservice/places.dart' as webservice;
 import 'package:tuple/tuple.dart';
 import 'package:uuid/uuid.dart';
 
+import 'models/application_models.dart';
+
 class PlacesService {
-  final log = getLogger('PlacesService');
   final _uuid = Uuid();
 
-  final _places = webservice.GoogleMapsPlaces(
-    apiKey: env['GOOGLE_MAPS_API_KEY'],
-  );
+  webservice.GoogleMapsPlaces? _places;
 
-  late Location _currentPosition;
+  late PlacesLocation _currentPosition;
   String? _sessionToken;
   bool _resetSessionTokenForNextAutoComplete = false;
 
-  Location get currentPosition => _currentPosition;
+  PlacesLocation get currentPosition => _currentPosition;
 
   /// Returns the session token last used to get auto-complete results from the
   /// Places API
   String? get sessionToken => _sessionToken;
 
+  /// Must initialize and pass in an API key.
+  void initialize({required String apiKey}) {
+    _places = webservice.GoogleMapsPlaces(
+      apiKey: apiKey,
+    );
+  }
+
   /// Gets auto complete results from the GoogleMapsApi
   ///
   /// Returns List of [PlacesAutoCompleteResult] or a [String] for a friendly error message
   Future<List<PlacesAutoCompleteResult>> getAutoComplete(String input) async {
-    log.i('input:$input sessionToken:$_sessionToken');
-
     if (_sessionToken == null || _resetSessionTokenForNextAutoComplete) {
       // Set reset back to false. We only want a new session when the user has selected
       // a place. Which for us means getPlaceDetails has been called.
@@ -41,7 +46,7 @@ class PlacesService {
 
     return _runPlacesRequest<List<PlacesAutoCompleteResult>,
         webservice.PlacesAutocompleteResponse>(
-      placesRequest: _places.autocomplete(input, sessionToken: _sessionToken),
+      placesRequest: _places!.autocomplete(input, sessionToken: _sessionToken),
       serialiseResponse: (autoCompleteResults) {
         final results = autoCompleteResults.predictions.where((prediction) {
           final address =
@@ -63,10 +68,9 @@ class PlacesService {
 
   /// Returns the [PlacesDetails] associated with the placeId
   Future<PlacesDetails> getPlaceDetails(String placeId) async {
-    log.i('placeId:$placeId sessionToken:$_sessionToken');
     return _runPlacesRequest<PlacesDetails, webservice.PlacesDetailsResponse>(
       placesRequest:
-          _places.getDetailsByPlaceId(placeId, sessionToken: _sessionToken),
+          _places!.getDetailsByPlaceId(placeId, sessionToken: _sessionToken),
       serialiseResponse: (detailsResponse) {
         // Indicate token reset on next auto complete request
         _resetSessionTokenForNextAutoComplete = true;
@@ -108,7 +112,6 @@ class PlacesService {
             timeLimit: Duration(seconds: trial.item2));
       }
     } catch (e) {
-      log.v('timed out trying to get current position');
       return;
     }
 
@@ -116,17 +119,16 @@ class PlacesService {
       return;
     }
 
-    _currentPosition = Location(
+    _currentPosition = PlacesLocation(
       id: '',
       placeName: '',
       latitude: currentPosition.latitude,
       longitude: currentPosition.longitude,
     );
 
-    log.i(
-        'current position: lattitude:${_currentPosition.latitude} longitude:${_currentPosition.longitude}');
-    return _runPlacesRequest<List<Location>, webservice.PlacesSearchResponse>(
-      placesRequest: _places.searchNearbyWithRadius(
+    return _runPlacesRequest<List<PlacesLocation>,
+        webservice.PlacesSearchResponse>(
+      placesRequest: _places!.searchNearbyWithRadius(
         webservice.Location(
           lat: _currentPosition.latitude!,
           lng: _currentPosition.longitude!,
@@ -134,7 +136,7 @@ class PlacesService {
         50,
       ),
       serialiseResponse: (searchResponse) {
-        var results = searchResponse.results.map((result) => Location(
+        var results = searchResponse.results.map((result) => PlacesLocation(
               id: result.placeId,
               latitude: result.geometry!.location.lat,
               longitude: result.geometry!.location.lng,
@@ -154,16 +156,13 @@ class PlacesService {
     try {
       var result = await placesRequest;
       if (result.isOkay) {
-        log.v('results received. $result');
         return serialiseResponse(result);
       } else {
-        log.w('$warningMessageForNotOkayResult ${result.errorMessage}');
         throw Exception(warningMessageForNotOkayResult);
       }
     } catch (e) {
       var errorMessage =
           'Cannot connect to google maps. Please check your connection';
-      log.e('$errorMessage. $e');
       throw Exception(errorMessage);
     }
   }

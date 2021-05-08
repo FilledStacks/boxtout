@@ -51,8 +51,11 @@ class StackedRouter extends RouterBase {
       );
     },
     AddressSelectionView: (data) {
+      var args = data.getArgs<AddressSelectionViewArguments>(
+        orElse: () => AddressSelectionViewArguments(),
+      );
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => const AddressSelectionView(),
+        builder: (context) => AddressSelectionView(key: args.key),
         settings: data,
       );
     },
@@ -86,6 +89,12 @@ class StackedRouter extends RouterBase {
 /// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
+
+/// AddressSelectionView arguments holder class
+class AddressSelectionViewArguments {
+  final Key? key;
+  AddressSelectionViewArguments({this.key});
+}
 
 /// CreateAccountView arguments holder class
 class CreateAccountViewArguments {

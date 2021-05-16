@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  box_ui:
+    dependency: "direct main"
+    description:
+      path: "../box_ui"
+      relative: true
+    source: path
+    version: "0.0.1"
   build:
     dependency: transitive
     description:

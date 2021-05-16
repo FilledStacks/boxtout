@@ -1,3 +1,4 @@
+import 'package:box_ui/src/shared/app_colors.dart';
 import 'package:box_ui/src/shared/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class BoxText extends StatelessWidget {
   const BoxText.subheading(this.text) : style = subheadingStyle;
   const BoxText.caption(this.text) : style = captionStyle;
 
-  BoxText.body(this.text, {Color color = Colors.black})
+  BoxText.body(this.text, {Color color = kcMediumGreyColor})
       : style = bodyStyle.copyWith(color: color);
 
   @override

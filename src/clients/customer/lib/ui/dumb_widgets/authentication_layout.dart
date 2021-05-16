@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:customer/ui/shared/styles.dart';
-import 'package:customer/ui/shared/ui_helpers.dart';
+import 'package:box_ui/box_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:auth_buttons/auth_buttons.dart';
 
@@ -64,9 +63,9 @@ class AuthenticationLayout extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: SizedBox(
               width: screenWidthPercentage(context, percentage: 0.7),
-              child: Text(
+              child: BoxText.body(
                 subtitle!,
-                style: ktsMediumGreyBodyText,
+                color: Colors.grey.shade400,
               ),
             ),
           ),
@@ -78,21 +77,15 @@ class AuthenticationLayout extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: GestureDetector(
                   onTap: onForgotPassword,
-                  child: Text(
+                  child: BoxText.body(
                     'Forget Password?',
-                    style: ktsMediumGreyBodyText.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
                   )),
             ),
           verticalSpaceRegular,
           if (validationMessage != null)
-            Text(
+            BoxText.body(
               validationMessage!,
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: kBodyTextSize,
-              ),
+              color: Colors.red,
             ),
           if (validationMessage != null) verticalSpaceRegular,
           GestureDetector(
@@ -137,17 +130,14 @@ class AuthenticationLayout extends StatelessWidget {
               ),
             ),
           if (showTermsText)
-            Text(
+            BoxText.body(
               'By signing up you agree to our terms, conditions and privacy policy.',
-              style: ktsMediumGreyBodyText,
-              textAlign: TextAlign.center,
             ),
           verticalSpaceRegular,
           Align(
               alignment: Alignment.center,
-              child: Text(
+              child: BoxText.body(
                 'Or',
-                style: ktsMediumGreyBodyText,
               )),
           verticalSpaceRegular,
           if (Platform.isIOS)

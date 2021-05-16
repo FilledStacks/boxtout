@@ -34,7 +34,7 @@ class BoxInputField extends StatelessWidget {
         contentPadding:
             const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         filled: true,
-        fillColor: Colors.grey.shade100,
+        fillColor: kcVeryLightGreyColor,
         prefixIcon: leading,
         suffixIcon: trailing != null
             ? GestureDetector(
@@ -43,7 +43,7 @@ class BoxInputField extends StatelessWidget {
               )
             : null,
         border: circularBorder.copyWith(
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: kcLightGreyColor),
         ),
         errorBorder: circularBorder.copyWith(
           borderSide: BorderSide(color: Colors.red),
@@ -52,7 +52,7 @@ class BoxInputField extends StatelessWidget {
           borderSide: BorderSide(color: kcPrimaryColor),
         ),
         enabledBorder: circularBorder.copyWith(
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: kcLightGreyColor),
         ),
         // filled: true,
         // fillColor: kcVeryLightGreyColor,

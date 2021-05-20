@@ -38,5 +38,3 @@ const TextStyle captionStyle = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w400,
 );
-
-const AppAnimationDuration = const Duration(milliseconds: 350);

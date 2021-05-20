@@ -33,7 +33,7 @@ class BoxButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: AppAnimationDuration,
+        duration: const Duration(milliseconds: 350),
         width: double.infinity,
         height: 48,
         alignment: Alignment.center,

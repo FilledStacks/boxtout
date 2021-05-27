@@ -45,4 +45,12 @@ class FirestoreApi {
               'Your userId passed in is empty. Please pass in a valid user if from your Firebase user.');
     }
   }
+
+  /// Saves the address passed in to the backend for the user and also sets
+  /// the default address if the user doesn't have one set.
+  /// Returns true if no errors occured
+  /// Returns false for any error at any part of the process
+  Future<bool> saveAddress({required Address address}) async {
+    return false;
+  }
 }

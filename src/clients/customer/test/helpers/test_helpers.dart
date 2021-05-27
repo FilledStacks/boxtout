@@ -1,8 +1,12 @@
+import 'package:customer/api/firestore_api.dart';
 import 'package:customer/app/app.locator.dart';
+import 'package:customer/constants/app_keys.dart';
 import 'package:customer/models/application_models.dart';
+import 'package:customer/services/environment_service.dart';
 import 'package:customer/services/user_service.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:places_service/places_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import 'test_helpers.mocks.dart';
@@ -10,8 +14,12 @@ import 'test_helpers.mocks.dart';
 @GenerateMocks([], customMocks: [
   MockSpec<UserService>(returnNullOnMissingStub: true),
   MockSpec<NavigationService>(returnNullOnMissingStub: true),
+  MockSpec<PlacesService>(returnNullOnMissingStub: true),
+  MockSpec<EnvironmentService>(returnNullOnMissingStub: true),
+  MockSpec<DialogService>(returnNullOnMissingStub: true),
+  MockSpec<FirestoreApi>(returnNullOnMissingStub: true),
 ])
-UserService getAndRegisterUserService({
+MockUserService getAndRegisterUserService({
   bool hasLoggedInUser = false,
   User? currentUser,
 }) {
@@ -23,21 +31,86 @@ UserService getAndRegisterUserService({
   return service;
 }
 
-NavigationService getAndRegisterNavigationService() {
+MockNavigationService getAndRegisterNavigationService() {
   _removeRegistrationIfExists<NavigationService>();
   final service = MockNavigationService();
   locator.registerSingleton<NavigationService>(service);
   return service;
 }
 
+MockPlacesService getAndRegisterPlacesService({PlacesDetails? placesDetails}) {
+  _removeRegistrationIfExists<PlacesService>();
+  final service = MockPlacesService();
+
+  when(service.getPlaceDetails(any))
+      .thenAnswer((realInvocation) => Future<PlacesDetails>.value(
+            placesDetails ?? PlacesDetails(placeId: 'TestId'),
+          ));
+
+  locator.registerSingleton<PlacesService>(service);
+  return service;
+}
+
+MockEnvironmentService getAndRegisterEnvironmentService({
+  String value = NoKey,
+}) {
+  _removeRegistrationIfExists<EnvironmentService>();
+  final service = MockEnvironmentService();
+
+  when(service.getValue(any)).thenReturn(value);
+
+  locator.registerSingleton<EnvironmentService>(service);
+  return service;
+}
+
+MockDialogService getAndRegisterDialogService() {
+  _removeRegistrationIfExists<DialogService>();
+  final service = MockDialogService();
+
+  when(service.showDialog(
+          barrierDismissible: anyNamed('barrierDismissible'),
+          buttonTitle: anyNamed('buttonTitle'),
+          buttonTitleColor: anyNamed('buttonTitleColor'),
+          cancelTitle: anyNamed('cancelTitle'),
+          cancelTitleColor: anyNamed('cancelTitleColor'),
+          description: anyNamed('description'),
+          dialogPlatform: anyNamed('dialogPlatform'),
+          title: anyNamed('title')))
+      .thenAnswer((realInvocation) => Future.value(DialogResponse()));
+
+  locator.registerSingleton<DialogService>(service);
+  return service;
+}
+
+MockFirestoreApi getAndRegisterFirestoreApi({
+  bool saveAddressSuccess = true,
+}) {
+  _removeRegistrationIfExists<FirestoreApi>();
+  final service = MockFirestoreApi();
+
+  when(service.saveAddress(address: anyNamed('address')))
+      .thenAnswer((realInvocation) => Future.value(saveAddressSuccess));
+
+  locator.registerSingleton<FirestoreApi>(service);
+  return service;
+}
+
 void registerServices() {
   getAndRegisterUserService();
   getAndRegisterNavigationService();
+  getAndRegisterPlacesService();
+  getAndRegisterEnvironmentService();
+  getAndRegisterDialogService();
+  getAndRegisterFirestoreApi();
 }
 
 void unregisterServices() {
   locator.unregister<UserService>();
   locator.unregister<NavigationService>();
+  locator.unregister<PlacesService>();
+  locator.unregister<EnvironmentService>();
+  locator.unregister<DialogService>();
+  locator.unregister<FirestoreApi>();
 }
 
 void _removeRegistrationIfExists<T extends Object>() {

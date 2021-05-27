@@ -1,7 +1,10 @@
 import 'package:customer/app/app.locator.dart';
 import 'package:customer/app/app.logger.dart';
 import 'package:customer/app/app.router.dart';
+import 'package:customer/constants/app_keys.dart';
+import 'package:customer/services/environment_service.dart';
 import 'package:customer/services/user_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:places_service/places_service.dart';
@@ -12,9 +15,14 @@ class StartUpViewModel extends BaseViewModel {
   final _userService = locator<UserService>();
   final _navigationService = locator<NavigationService>();
   final _placesService = locator<PlacesService>();
+  final _environmentService = locator<EnvironmentService>();
 
   Future<void> runStartupLogic() async {
-    _placesService.initialize(apiKey: env['GOOGLE_MAPS_API_KEY']!);
+    await _environmentService.initialise();
+
+    _placesService.initialize(
+      apiKey: _environmentService.getValue(GoogleMapsEnvKey),
+    );
 
     if (_userService.hasLoggedInUser) {
       log.v('We have a user session on disk. Sync the user profile ...');

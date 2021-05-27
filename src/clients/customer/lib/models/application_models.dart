@@ -17,3 +17,20 @@ class User with _$User {
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
+
+@freezed
+abstract class Address with _$Address {
+  factory Address({
+    String? id,
+    required String placeId,
+    required double lattitude,
+    required double longitute,
+    String? street,
+    String? city,
+    String? state,
+    String? postalCode,
+  }) = _Address;
+
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
+}

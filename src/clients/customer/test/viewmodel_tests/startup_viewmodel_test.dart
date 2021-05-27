@@ -7,6 +7,11 @@ import '../helpers/test_helpers.dart';
 
 StartUpViewModel _getModel() => StartUpViewModel();
 
+// TODO: Write test to confirm we're initialised invironement service
+// TODO: Write test to confirm we are initialising the places service
+// TODO: Write test to confirm that we are getting the environemnt key from the EnvironmentService
+// TODO: Write test to confirm that the key returned from the environment service is the one used to initialise
+
 void main() {
   group('StartupViewmodelTest -', () {
     setUp(() => registerServices());

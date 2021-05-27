@@ -11,6 +11,10 @@ import 'package:stacked_services/stacked_services.dart';
 
 import 'test_helpers.mocks.dart';
 
+// To find any test key we'll have to type TestKey and all these will pop up
+
+const String UserIdTestKey = 'default_user';
+
 @GenerateMocks([], customMocks: [
   MockSpec<UserService>(returnNullOnMissingStub: true),
   MockSpec<NavigationService>(returnNullOnMissingStub: true),
@@ -26,7 +30,7 @@ MockUserService getAndRegisterUserService({
   _removeRegistrationIfExists<UserService>();
   final service = MockUserService();
   when(service.hasLoggedInUser).thenReturn(hasLoggedInUser);
-  when(service.currentUser).thenReturn(currentUser ?? User(id: 'default_user'));
+  when(service.currentUser).thenReturn(currentUser ?? User(id: UserIdTestKey));
   locator.registerSingleton<UserService>(service);
   return service;
 }
@@ -57,6 +61,7 @@ MockEnvironmentService getAndRegisterEnvironmentService({
   _removeRegistrationIfExists<EnvironmentService>();
   final service = MockEnvironmentService();
 
+  when(service.initialise()).thenAnswer((realInvocation) => Future.value());
   when(service.getValue(any)).thenReturn(value);
 
   locator.registerSingleton<EnvironmentService>(service);
@@ -88,8 +93,10 @@ MockFirestoreApi getAndRegisterFirestoreApi({
   _removeRegistrationIfExists<FirestoreApi>();
   final service = MockFirestoreApi();
 
-  when(service.saveAddress(address: anyNamed('address')))
-      .thenAnswer((realInvocation) => Future.value(saveAddressSuccess));
+  when(service.saveAddress(
+    address: anyNamed('address'),
+    user: anyNamed('user'),
+  )).thenAnswer((realInvocation) => Future.value(saveAddressSuccess));
 
   locator.registerSingleton<FirestoreApi>(service);
   return service;

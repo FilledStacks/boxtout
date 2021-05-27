@@ -4,6 +4,7 @@ import 'package:customer/app/app.logger.dart';
 import 'package:customer/app/app.router.dart';
 import 'package:customer/constants/app_strings.dart';
 import 'package:customer/models/application_models.dart';
+import 'package:customer/services/user_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:places_service/places_service.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -17,6 +18,7 @@ class AddressSelectionViewModel extends FormViewModel {
   final _dialogService = locator<DialogService>();
   final _firestoreApi = locator<FirestoreApi>();
   final _navigationService = locator<NavigationService>();
+  final _userService = locator<UserService>();
 
   List<PlacesAutoCompleteResult> _autoCompleteResults = [];
   PlacesAutoCompleteResult? _selectedResult;
@@ -75,7 +77,10 @@ class AddressSelectionViewModel extends FormViewModel {
         street: placeDetails.streetLong ?? placeDetails.streetShort,
       );
 
-      final saveSuccess = await _firestoreApi.saveAddress(address: address);
+      final saveSuccess = await _firestoreApi.saveAddress(
+        address: address,
+        user: _userService.currentUser,
+      );
 
       if (!saveSuccess) {
         log.v('Address save failed. Notify user to try again.');

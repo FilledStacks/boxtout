@@ -1,6 +1,7 @@
 import 'package:customer/app/app.logger.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:customer/constants/app_keys.dart';
 import 'package:customer/exceptions/firestore_api_exception.dart';
 import 'package:customer/models/application_models.dart';
 
@@ -8,7 +9,7 @@ class FirestoreApi {
   final log = getLogger('FirestoreApi');
 
   final CollectionReference usersCollection =
-      FirebaseFirestore.instance.collection('users');
+      FirebaseFirestore.instance.collection(UsersFirestoreKey);
 
   Future<void> createUser({required User user}) async {
     log.i('user:$user');
@@ -50,7 +51,42 @@ class FirestoreApi {
   /// the default address if the user doesn't have one set.
   /// Returns true if no errors occured
   /// Returns false for any error at any part of the process
-  Future<bool> saveAddress({required Address address}) async {
-    return false;
+  Future<bool> saveAddress({
+    required Address address,
+    required User user,
+  }) async {
+    log.i('address:$address');
+
+    try {
+      final addressDoc = getAddressCollectionForUser(user.id).doc();
+      final newAddressId = addressDoc.id;
+      log.v('Address will be stored with id: $newAddressId');
+
+      await addressDoc.set(
+        address.copyWith(id: newAddressId).toJson(),
+      );
+
+      final hasDefaultAddress = user.hasAddress;
+
+      log.v('Address save complete. hasDefaultAddress:$hasDefaultAddress');
+
+      if (!hasDefaultAddress) {
+        log.v(
+            'This user has no default address. We need to set the current one as default.');
+        await usersCollection.doc(user.id).set(
+              user.copyWith(defaultAddress: newAddressId).toJson(),
+            );
+        log.v('User ${user.id} defaultAddress set to $newAddressId');
+      }
+
+      return true;
+    } on Exception catch (e) {
+      log.e('we could not save the users address. $e');
+      return false;
+    }
+  }
+
+  CollectionReference getAddressCollectionForUser(String userId) {
+    return usersCollection.doc(userId).collection(AddressesFirestoreKey);
   }
 }

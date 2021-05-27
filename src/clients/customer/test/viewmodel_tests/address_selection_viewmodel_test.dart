@@ -1,6 +1,7 @@
 import 'package:customer/app/app.router.dart';
 import 'package:customer/constants/app_strings.dart';
 import 'package:customer/models/application_models.dart';
+import 'package:customer/services/user_service.dart';
 import 'package:customer/ui/address_selection/address_selection_viewmodel.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -49,10 +50,26 @@ void main() {
         final firestoreApi = getAndRegisterFirestoreApi();
         final model = _getModel();
 
-        await model
-            .selectAddressSuggestion(
+        await model.selectAddressSuggestion(
             autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'));
-        verify(firestoreApi.saveAddress(address: anyNamed('address')));
+        verify(
+          firestoreApi.saveAddress(
+            address: anyNamed('address'),
+            user: anyNamed('user'),
+          ),
+        );
+      });
+
+      test(
+          'When placesDetails retrieved, should get userId from userService to get id',
+          () async {
+        final userService = getAndRegisterUserService();
+        final model = _getModel();
+
+        await model.selectAddressSuggestion(
+            autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'));
+
+        verify(userService.currentUser);
       });
 
       test(
@@ -74,20 +91,21 @@ void main() {
         getAndRegisterPlacesService(placesDetails: placeDetailsToReturn);
         final model = _getModel();
 
-        await model
-            .selectAddressSuggestion(
+        await model.selectAddressSuggestion(
             autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'));
 
         verify(firestoreApi.saveAddress(
-            address: Address(
-          placeId: 'placeId',
-          lattitude: 19,
-          longitute: 20,
-          city: 'Paarl',
-          postalCode: '144',
-          state: 'Western Cape',
-          street: 'Langen hofen Road',
-        )));
+          address: Address(
+            placeId: 'placeId',
+            lattitude: 19,
+            longitute: 20,
+            city: 'Paarl',
+            postalCode: '144',
+            state: 'Western Cape',
+            street: 'Langen hofen Road',
+          ),
+          user: anyNamed('user'),
+        ));
       });
 
       test(
@@ -101,16 +119,17 @@ void main() {
         getAndRegisterPlacesService(placesDetails: placeDetailsToReturn);
         final model = _getModel();
 
-        await model
-            .selectAddressSuggestion(
+        await model.selectAddressSuggestion(
             autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'));
 
         verify(firestoreApi.saveAddress(
-            address: Address(
-          placeId: 'placeId',
-          lattitude: -1,
-          longitute: -1,
-        )));
+          address: Address(
+            placeId: 'placeId',
+            lattitude: -1,
+            longitute: -1,
+          ),
+          user: anyNamed('user'),
+        ));
       });
 
       test(
@@ -119,8 +138,8 @@ void main() {
         final dialogService = getAndRegisterDialogService();
         getAndRegisterFirestoreApi(saveAddressSuccess: false);
         final model = _getModel();
-        await model
-            .selectAddressSuggestion(autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'));
+        await model.selectAddressSuggestion(
+            autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'));
         verify(dialogService.showDialog(
           title: AddressSaveFailedDialogTitle,
           description: AddressSaveFailedDialogDescription,
@@ -133,8 +152,7 @@ void main() {
         final navigationService = getAndRegisterNavigationService();
         getAndRegisterFirestoreApi(saveAddressSuccess: true);
         final model = _getModel();
-        await model
-            .selectAddressSuggestion(
+        await model.selectAddressSuggestion(
             autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'));
         verify(navigationService.clearStackAndShow(Routes.homeView));
       });

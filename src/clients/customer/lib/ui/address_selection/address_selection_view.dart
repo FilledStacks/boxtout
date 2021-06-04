@@ -1,7 +1,5 @@
 import 'package:box_ui/box_ui.dart';
-import 'package:box_ui/src/shared/styles.dart';
 import 'package:customer/ui/address_selection/address_selection_view.form.dart';
-import 'package:customer/ui/dumb_widgets/autocomplete_listItem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stacked/stacked.dart';
@@ -23,13 +21,6 @@ class AddressSelectionView extends StatelessWidget with $AddressSelectionView {
       onModelReady: (model) => listenToFormUpdated(model),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(
-              Icons.close,
-              color: Colors.black,
-            ),
-            onPressed: () {},
-          ),
           elevation: 0,
           backgroundColor: Colors.transparent,
           foregroundColor: kcPrimaryColor,
@@ -59,11 +50,9 @@ class AddressSelectionView extends StatelessWidget with $AddressSelectionView {
               children: [
                 BoxText.headingTwo("Find restaurants near you"),
                 verticalSpaceSmall,
-                //TODO: Add Align property to BoxText
-                Text(
+                BoxText.body(
                   "Please enter your location or allow access to your location to find restaurants near you",
-                  style: bodyStyle.copyWith(color: kcMediumGreyColor),
-                  textAlign: TextAlign.center,
+                  align: TextAlign.center,
                 ),
               ],
             )),
@@ -71,10 +60,10 @@ class AddressSelectionView extends StatelessWidget with $AddressSelectionView {
               child: Focus(
                 onFocusChange: model.onFocusChanged,
                 child: AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
+                  duration: Duration(milliseconds: 400),
                   margin: model.focus
                       ? EdgeInsets.only(top: 30.0)
-                      : EdgeInsets.only(top: 40.0),
+                      : EdgeInsets.only(top: 50.0),
                   child: BoxInputField(
                     controller: addressController,
                     leading: Icon(Icons.location_on),
@@ -85,9 +74,11 @@ class AddressSelectionView extends StatelessWidget with $AddressSelectionView {
                 ),
               ),
             ),
-            if (model.hasAddress && !model.hasAutoCompleteResults)
-              Text('We have no suggestions for you'),
-            verticalSpaceSmall,
+            verticalSpaceMedium,
+            if (!model.hasAutoCompleteResults &&
+                model.hasAddress &&
+                model.addressValue!.isEmpty)
+              BoxText.body('We have no suggestions for you'),
             if (model.hasAutoCompleteResults && !model.isBusy)
               ...model.autoCompleteResults.map(
                 (autoCompleteResult) => AutoCompleteListItem(

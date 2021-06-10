@@ -27,6 +27,7 @@
     "glob": "^7.1.6"
   },
   "devDependencies": {
+    "@types/faker": "^5.5.6",
     "rimraf": "^3.0.2",
     "tslib": "^2.1.0",
     "tslint": "^6.1.3",

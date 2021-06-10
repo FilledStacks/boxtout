@@ -87,6 +87,7 @@ class AddressSelectionView extends StatelessWidget with $AddressSelectionView {
                   onTap: () {
                     SystemChannels.textInput.invokeMethod('TextInput.hide');
                     model.setSelectedSuggestion(autoCompleteResult);
+                    addressController.text = "${autoCompleteResult.mainText}";
                   },
                 ),
               ),

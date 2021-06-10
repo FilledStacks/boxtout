@@ -24,7 +24,9 @@ class AutoCompleteListItem extends StatelessWidget {
           title: BoxText.subheading(city),
           subtitle: BoxText.caption(state),
         ),
-        Container(margin: EdgeInsets.only(left: 50.0), child: Divider())
+        Divider(
+          indent: 50,
+        )
       ],
     );
   }

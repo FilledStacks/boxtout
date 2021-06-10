@@ -57,7 +57,7 @@ class AddressSelectionViewModel extends FormViewModel {
     PlacesAutoCompleteResult selectedResult =
         autoCompleteResult ?? _selectedResult!;
 
-    log.i('Selected $autoCompleteResult as the suggestion');
+    log.i('Selected $selectedResult as the suggestion');
 
     if (selectedResult.placeId == null) {
       _dialogService.showDialog(

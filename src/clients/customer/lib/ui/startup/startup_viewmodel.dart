@@ -32,7 +32,6 @@ class StartUpViewModel extends BaseViewModel {
       log.v('User sync complete. User profile: $currentUser');
 
       if (!currentUser.hasAddress) {
-        log.v('User does not have default address. Let them select one');
         _navigationService.navigateTo(Routes.addressSelectionView);
       } else {
         log.v('We have a default address. Let\'s show them products!');

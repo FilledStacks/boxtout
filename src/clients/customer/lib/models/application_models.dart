@@ -13,9 +13,9 @@ class User with _$User {
     String? defaultAddress,
   }) = _User;
 
-  bool get hasAddress => defaultAddress?.isNotEmpty ?? false;
-
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  bool get hasAddress => defaultAddress?.isNotEmpty ?? false;
 }
 
 @freezed

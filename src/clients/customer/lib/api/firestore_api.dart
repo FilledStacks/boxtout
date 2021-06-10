@@ -72,7 +72,8 @@ class FirestoreApi {
 
       if (!hasDefaultAddress) {
         log.v(
-            'This user has no default address. We need to set the current one as default.');
+            'This user has no default address. We need to set the current one as default');
+
         await usersCollection.doc(user.id).set(
               user.copyWith(defaultAddress: newAddressId).toJson(),
             );

@@ -19,6 +19,7 @@
     "body-parser": "^1.19.0",
     "camelcase": "^6.2.0",
     "express": "^4.17.1",
+    "faker": "^5.5.3",
     "firebase-admin": "^9.5.0",
     "firebase-backend": "^0.1.3",
     "firebase-function-tools": "^2.0.1",

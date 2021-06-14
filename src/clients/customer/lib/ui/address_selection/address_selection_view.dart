@@ -91,19 +91,6 @@ class AddressSelectionView extends StatelessWidget with $AddressSelectionView {
                   },
                 ),
               ),
-            if (model.isBusy)
-              Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    BoxText.subheading('Saving your Address...'),
-                    CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(kcPrimaryColor),
-                    )
-                  ],
-                ),
-              )
           ],
         ),
       ),

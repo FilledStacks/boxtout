@@ -30,6 +30,10 @@ class AddressSelectionViewModel extends FormViewModel {
 
   bool get hasAutoCompleteResults => _autoCompleteResults.isNotEmpty;
 
+  /// Indicated whether the [BoxInputField] is focused or not
+  /// We can use this property for animation to move the "search input" higher when the user focus's on it
+  bool focus = false;
+
   @override
   void setFormStatus() {
     _getAutoCompleteResults();
@@ -53,7 +57,7 @@ class AddressSelectionViewModel extends FormViewModel {
     PlacesAutoCompleteResult selectedResult =
         autoCompleteResult ?? _selectedResult!;
 
-    log.i('Selected $autoCompleteResult as the suggestion');
+    log.i('Selected $selectedResult as the suggestion');
 
     if (selectedResult.placeId == null) {
       _dialogService.showDialog(
@@ -104,6 +108,12 @@ class AddressSelectionViewModel extends FormViewModel {
 
     _autoCompleteResults.clear();
 
+    notifyListeners();
+  }
+
+  /// Updates the [BoxInputField] focus state
+  void onFocusChanged(bool isFocus) {
+    this.focus = isFocus;
     notifyListeners();
   }
 }

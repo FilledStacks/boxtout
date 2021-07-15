@@ -74,36 +74,41 @@ class AddressSelectionViewModel extends FormViewModel {
 
       final city = placeDetails.city ?? '';
 
-      final isCityServiced =
+      final cityServiced =
           await _firestoreApi.isCityServiced(city: city.toCityDocument);
 
-      
-
-      final address = Address(
-        placeId: placeDetails.placeId!,
-        lattitude: placeDetails.lat ?? -1,
-        longitute: placeDetails.lng ?? -1,
-        city: placeDetails.city,
-        postalCode: placeDetails.zip,
-        state: placeDetails.state,
-        street: placeDetails.streetLong ?? placeDetails.streetShort,
-      );
-
-      final saveSuccess = await _firestoreApi.saveAddress(
-        address: address,
-        user: _userService.currentUser,
-      );
-
-      if (!saveSuccess) {
-        log.v('Address save failed. Notify user to try again.');
-        _dialogService.showDialog(
-          title: AddressSaveFailedDialogTitle,
-          description: AddressSaveFailedDialogDescription,
+      if (!cityServiced) {
+        await _dialogService.showDialog(
+          title: CityNotServicedDialogTitle,
+          description: CityNotServicedDialogDescripton,
         );
       } else {
-        log.v(
-            'Address has been saved! We\'re ready to show them some products!');
-        _navigationService.clearStackAndShow(Routes.homeView);
+        final address = Address(
+          placeId: placeDetails.placeId!,
+          lattitude: placeDetails.lat ?? -1,
+          longitute: placeDetails.lng ?? -1,
+          city: placeDetails.city,
+          postalCode: placeDetails.zip,
+          state: placeDetails.state,
+          street: placeDetails.streetLong ?? placeDetails.streetShort,
+        );
+
+        final saveSuccess = await _firestoreApi.saveAddress(
+          address: address,
+          user: _userService.currentUser,
+        );
+
+        if (!saveSuccess) {
+          log.v('Address save failed. Notify user to try again.');
+          _dialogService.showDialog(
+            title: AddressSaveFailedDialogTitle,
+            description: AddressSaveFailedDialogDescription,
+          );
+        } else {
+          log.v(
+              'Address has been saved! We\'re ready to show them some products!');
+          _navigationService.clearStackAndShow(Routes.homeView);
+        }
       }
 
       setBusy(false);

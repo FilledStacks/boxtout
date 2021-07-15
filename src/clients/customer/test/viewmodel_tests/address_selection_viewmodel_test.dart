@@ -1,12 +1,10 @@
 import 'package:customer/app/app.router.dart';
 import 'package:customer/constants/app_strings.dart';
 import 'package:customer/models/application_models.dart';
-import 'package:customer/services/user_service.dart';
 import 'package:customer/ui/address_selection/address_selection_viewmodel.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:places_service/places_service.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 import '../helpers/test_helpers.dart';
 
@@ -187,12 +185,29 @@ void main() {
           autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'),
         );
 
-        verify(dialogService.showDialog(
-          title: CityNotServicedDialogTitle,
-          description: CityNotServicedDialogDescripton,
-        ));
+        verify(
+          dialogService.showDialog(
+            title: CityNotServicedDialogTitle,
+            description: CityNotServicedDialogDescripton,
+          ),
+        );
       });
 
+      test(
+          'When saving address and place is not serviced, should not call saveAddress on the FirestoreApi',
+          () async {
+        final firestoreApi = getAndRegisterFirestoreApi(isCityServiced: false);
+
+        final model = _getModel();
+        await model.selectAddressSuggestion(
+          autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'),
+        );
+
+        verifyNever(firestoreApi.saveAddress(
+          address: anyNamed('address'),
+          user: anyNamed('user'),
+        ));
+      });
     });
   });
 }

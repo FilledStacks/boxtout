@@ -8,6 +8,7 @@ import 'package:customer/services/user_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:places_service/places_service.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:customer/extensions/string_extensions.dart';
 
 import 'address_selection_view.form.dart';
 
@@ -70,6 +71,13 @@ class AddressSelectionViewModel extends FormViewModel {
       final placeDetails =
           await _placesService.getPlaceDetails(selectedResult.placeId ?? '');
       log.v('Place Details: $placeDetails');
+
+      final city = placeDetails.city ?? '';
+
+      final isCityServiced =
+          await _firestoreApi.isCityServiced(city: city.toCityDocument);
+
+      
 
       final address = Address(
         placeId: placeDetails.placeId!,

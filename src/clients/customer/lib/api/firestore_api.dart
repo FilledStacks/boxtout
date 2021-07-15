@@ -11,6 +11,9 @@ class FirestoreApi {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection(UsersFirestoreKey);
 
+  final CollectionReference regionsCollection =
+      FirebaseFirestore.instance.collection(RegionsFirestoreKey);
+
   Future<void> createUser({required User user}) async {
     log.i('user:$user');
 
@@ -85,6 +88,12 @@ class FirestoreApi {
       log.e('we could not save the users address. $e');
       return false;
     }
+  }
+
+  Future<bool> isCityServiced({required String city}) async {
+    log.i('city:$city');
+    final cityDocument = await regionsCollection.doc(city).get();
+    return cityDocument.exists;
   }
 
   CollectionReference getAddressCollectionForUser(String userId) {

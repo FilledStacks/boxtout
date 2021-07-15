@@ -156,6 +156,43 @@ void main() {
             autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'));
         verify(navigationService.clearStackAndShow(Routes.homeView));
       });
+
+      test(
+          'When saving address, should check if place is services on firestoreApi using the city from the details',
+          () async {
+        final firestoreApi = getAndRegisterFirestoreApi();
+
+        getAndRegisterPlacesService(
+            placesDetails: PlacesDetails(
+          placeId: 'id',
+          city: 'Test City',
+        ));
+
+        final model = _getModel();
+        await model.selectAddressSuggestion(
+          autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'),
+        );
+
+        verify(firestoreApi.isCityServiced(city: 'test-city'));
+      });
+
+      test(
+          'When saving address and place is not serviced, should show user a dialog with not serviced title and description',
+          () async {
+        final dialogService = getAndRegisterDialogService();
+        getAndRegisterFirestoreApi(isCityServiced: false);
+
+        final model = _getModel();
+        await model.selectAddressSuggestion(
+          autoCompleteResult: PlacesAutoCompleteResult(placeId: 'id'),
+        );
+
+        verify(dialogService.showDialog(
+          title: CityNotServicedDialogTitle,
+          description: CityNotServicedDialogDescripton,
+        ));
+      });
+
     });
   });
 }

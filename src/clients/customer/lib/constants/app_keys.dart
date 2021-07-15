@@ -4,3 +4,4 @@ const String NoKey = 'NO_KEY';
 /// Firestore Keys
 const String UsersFirestoreKey = 'users';
 const String AddressesFirestoreKey = 'addresses';
+const String RegionsFirestoreKey = 'regions';

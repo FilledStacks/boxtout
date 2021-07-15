@@ -48,7 +48,11 @@ MockPlacesService getAndRegisterPlacesService({PlacesDetails? placesDetails}) {
 
   when(service.getPlaceDetails(any))
       .thenAnswer((realInvocation) => Future<PlacesDetails>.value(
-            placesDetails ?? PlacesDetails(placeId: 'TestId'),
+            placesDetails ??
+                PlacesDetails(
+                  placeId: 'TestId',
+                  city: 'Test City',
+                ),
           ));
 
   locator.registerSingleton<PlacesService>(service);
@@ -89,9 +93,13 @@ MockDialogService getAndRegisterDialogService() {
 
 MockFirestoreApi getAndRegisterFirestoreApi({
   bool saveAddressSuccess = true,
+  bool isCityServiced = true,
 }) {
   _removeRegistrationIfExists<FirestoreApi>();
   final service = MockFirestoreApi();
+
+  when(service.isCityServiced(city: anyNamed('city')))
+      .thenAnswer((realInvocation) => Future.value(isCityServiced));
 
   when(service.saveAddress(
     address: anyNamed('address'),

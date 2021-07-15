@@ -28,7 +28,14 @@ export class FakeDataPopulator {
     if (!generateDocument.exists) {
       await this.createGenerateDocument();
       await this.generateMerchants();
+      await this.generateRegions();
     }
+  }
+
+  private async generateRegions() {
+    log('generateRegions');
+
+    await this.firestoreDatabase.collection('regions').doc('cape-town').set({});
   }
 
   private async generateMerchants() {

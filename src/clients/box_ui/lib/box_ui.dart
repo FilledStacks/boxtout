@@ -11,3 +11,6 @@ export 'src/shared/app_colors.dart';
 
 // Helpers
 export 'src/shared/ui_helpers.dart';
+
+// TextStyles
+export 'src/shared/styles.dart';

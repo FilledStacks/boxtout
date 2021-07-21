@@ -9,3 +9,5 @@ const String AddressSaveFailedDialogDescription =
 const String CityNotServicedDialogTitle = 'We don\'t service this area';
 const String CityNotServicedDialogDescripton =
     'At the moment we do not service your area. Please select a different address. If you want to see our serviced cities please select "View serviced areas" below.';
+const String CityNotServicedDialogButtonLeftTitle = 'View Areas';
+const String CityNotServicedDialogButtonRightTitle = 'Got it';

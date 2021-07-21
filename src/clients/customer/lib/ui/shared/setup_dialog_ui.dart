@@ -4,38 +4,37 @@ import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 // The type of dialog to show
-enum DialogType { region }
-enum RegionDialogStatus { success, error, warning }
+enum DialogType { basic }
+enum BasicDialogStatus { success, error, warning }
 
 void setupDialogUi() {
   final dialogService = locator<DialogService>();
 
   final builders = {
-    DialogType.region: (BuildContext context, DialogRequest sheetRequest,
+    DialogType.basic: (BuildContext context, DialogRequest sheetRequest,
             Function(DialogResponse) completer) =>
-        _RegionDialog(request: sheetRequest, completer: completer),
+        _BasicDialog(request: sheetRequest, completer: completer),
   };
 
   dialogService.registerCustomDialogBuilders(builders);
 }
 
-class _RegionDialog extends StatelessWidget {
+class _BasicDialog extends StatelessWidget {
   final DialogRequest request;
   final Function(DialogResponse) completer;
-  const _RegionDialog(
-      {Key? key, required this.request, required this.completer})
+  const _BasicDialog({Key? key, required this.request, required this.completer})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
         backgroundColor: kcTransparentColor,
-        child: RegionDialogContent(request: request, completer: completer));
+        child: _BasicDialogContent(request: request, completer: completer));
   }
 }
 
-class RegionDialogContent extends StatelessWidget {
-  const RegionDialogContent({
+class _BasicDialogContent extends StatelessWidget {
+  const _BasicDialogContent({
     Key? key,
     required this.request,
     required this.completer,
@@ -112,9 +111,9 @@ class RegionDialogContent extends StatelessWidget {
 }
 
 Widget _chooseDialogCircularSign(dynamic regionDialogStatus) {
-  if (regionDialogStatus is RegionDialogStatus)
+  if (regionDialogStatus is BasicDialogStatus)
     switch (regionDialogStatus) {
-      case RegionDialogStatus.error:
+      case BasicDialogStatus.error:
         return CircleAvatar(
           minRadius: 16,
           maxRadius: 28,
@@ -125,7 +124,7 @@ Widget _chooseDialogCircularSign(dynamic regionDialogStatus) {
             color: kcWhiteColor,
           ),
         );
-      case RegionDialogStatus.warning:
+      case BasicDialogStatus.warning:
         return CircleAvatar(
           minRadius: 16,
           maxRadius: 28,

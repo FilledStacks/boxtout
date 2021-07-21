@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:customer/ui/shared/setup_dialog_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ Future main() async {
   }
 
   setupLocator();
+  setupDialogUi();
   runApp(MyApp());
 }
 

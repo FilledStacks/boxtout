@@ -3,8 +3,11 @@ import 'package:customer/app/app.locator.dart';
 import 'package:customer/app/app.logger.dart';
 import 'package:customer/app/app.router.dart';
 import 'package:customer/constants/app_strings.dart';
+import 'package:customer/enums/basic_dialog_status.dart';
+import 'package:customer/enums/dialog_type.dart';
 import 'package:customer/models/application_models.dart';
 import 'package:customer/services/user_service.dart';
+import 'package:customer/ui/shared/setup_dialog_ui.dart';
 import 'package:stacked/stacked.dart';
 import 'package:places_service/places_service.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -78,10 +81,16 @@ class AddressSelectionViewModel extends FormViewModel {
           await _firestoreApi.isCityServiced(city: city.toCityDocument);
 
       if (!cityServiced) {
-        await _dialogService.showDialog(
-          title: CityNotServicedDialogTitle,
-          description: CityNotServicedDialogDescripton,
-        );
+        final dialogResult = await _dialogService.showCustomDialog(
+            variant: DialogType.basic,
+            customData: BasicDialogStatus.warning,
+            title: CityNotServicedDialogTitle,
+            description: CityNotServicedDialogDescripton,
+            secondaryButtonTitle: CityNotServicedDialogButtonLeftTitle,
+            mainButtonTitle: CityNotServicedDialogButtonRightTitle);
+        if (!dialogResult!.confirmed) {
+          // take me to a screen that has a list of all the region documents available
+        }
       } else {
         final address = Address(
           placeId: placeDetails.placeId!,

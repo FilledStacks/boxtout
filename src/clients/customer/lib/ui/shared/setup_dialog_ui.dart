@@ -1,11 +1,9 @@
 import 'package:box_ui/box_ui.dart';
 import 'package:customer/app/app.locator.dart';
+import 'package:customer/enums/basic_dialog_status.dart';
+import 'package:customer/enums/dialog_type.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
-
-// The type of dialog to show
-enum DialogType { basic }
-enum BasicDialogStatus { success, error, warning }
 
 void setupDialogUi() {
   final dialogService = locator<DialogService>();
@@ -28,7 +26,7 @@ class _BasicDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-        backgroundColor: kcTransparentColor,
+        backgroundColor: Colors.transparent,
         child: _BasicDialogContent(request: request, completer: completer));
   }
 }
@@ -55,7 +53,7 @@ class _BasicDialogContent extends StatelessWidget {
           padding:
               const EdgeInsets.only(top: 32, left: 16, right: 16, bottom: 12),
           decoration: BoxDecoration(
-            color: kcWhiteColor,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(24),
           ),
           child: Column(
@@ -68,7 +66,7 @@ class _BasicDialogContent extends StatelessWidget {
                 request.title ?? '',
                 textAlign: TextAlign.center,
                 style: subheadingStyle.copyWith(
-                  color: kcBlackColor,
+                  color: Colors.black,
                   height: 1.4,
                 ),
               ),
@@ -88,7 +86,7 @@ class _BasicDialogContent extends StatelessWidget {
                         onPressed: () =>
                             completer(DialogResponse(confirmed: false)),
                         child: Text(request.secondaryButtonTitle!,
-                            style: bodyStyle.copyWith(color: kcBlackColor))),
+                            style: bodyStyle.copyWith(color: Colors.black))),
                   TextButton(
                       onPressed: () =>
                           completer(DialogResponse(confirmed: true)),
@@ -104,59 +102,46 @@ class _BasicDialogContent extends StatelessWidget {
           ),
         ),
         Positioned(
-            top: -28, child: _chooseDialogCircularSign(request.customData))
+            top: -28,
+            child: CircleAvatar(
+              minRadius: 16,
+              maxRadius: 28,
+              backgroundColor: _avatarIconColorByStatus(request.customData),
+              child: Icon(
+                _avatarIconDataByStatus(request.customData),
+                size: 28,
+                color: Colors.white,
+              ),
+            ))
       ],
     );
   }
 }
 
-Widget _chooseDialogCircularSign(dynamic regionDialogStatus) {
+Color _avatarIconColorByStatus(dynamic regionDialogStatus) {
   if (regionDialogStatus is BasicDialogStatus)
     switch (regionDialogStatus) {
       case BasicDialogStatus.error:
-        return CircleAvatar(
-          minRadius: 16,
-          maxRadius: 28,
-          backgroundColor: kcRedColor,
-          child: Icon(
-            Icons.close,
-            size: 28,
-            color: kcWhiteColor,
-          ),
-        );
+        return kcRedColor;
       case BasicDialogStatus.warning:
-        return CircleAvatar(
-          minRadius: 16,
-          maxRadius: 28,
-          backgroundColor: kcOrangeColor,
-          child: Icon(
-            Icons.warning_amber,
-            size: 28,
-            color: kcWhiteColor,
-          ),
-        );
+        return kcOrangeColor;
       default:
-        return CircleAvatar(
-          minRadius: 16,
-          maxRadius: 28,
-          backgroundColor: kcPrimaryColor,
-          child: Icon(
-            Icons.check,
-            size: 28,
-            color: kcWhiteColor,
-          ),
-        );
+        return kcPrimaryColor;
     }
-  else {
-    return CircleAvatar(
-      minRadius: 16,
-      maxRadius: 28,
-      backgroundColor: kcPrimaryColor,
-      child: Icon(
-        Icons.check,
-        size: 28,
-        color: kcWhiteColor,
-      ),
-    );
-  }
+  else
+    return kcPrimaryColor;
+}
+
+IconData _avatarIconDataByStatus(dynamic regionDialogStatus) {
+  if (regionDialogStatus is BasicDialogStatus)
+    switch (regionDialogStatus) {
+      case BasicDialogStatus.error:
+        return Icons.close;
+      case BasicDialogStatus.warning:
+        return Icons.warning_amber;
+      default:
+        return Icons.check;
+    }
+  else
+    return Icons.check;
 }

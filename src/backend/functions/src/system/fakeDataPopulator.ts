@@ -53,35 +53,36 @@ export class FakeDataPopulator {
         'numberOfRatings': faker.datatype.number(200),
       };
 
-      let merchantId = await this.createMerchantDocument(merchant);
-      await this.generateMerchantsProducts(merchantId);
+      // let merchantId = 
+      await this.createMerchantDocumentForSpecificRegion(merchant,'cape-town');
+      // await this.generateMerchantsProducts(merchantId);
     }
   }
 
-  private async generateMerchantsProducts(merchatId: string) {
-    log(`generateMerchantsProducts merchatId:${merchatId}`);
+  // private async generateMerchantsProducts(merchatId: string) {
+  //   log(`generateMerchantsProducts merchatId:${merchatId}`);
 
-    for (let index = 0; index < 30; index++) {
-      let product = {
-        'name': faker.commerce.productName(),
-        'description': faker.lorem.paragraph(2),
-        'image': faker.image.imageUrl(640, 640, 'food'),
-        'category': faker.commerce.department(),
-        'price': faker.datatype.number(8999),
-      };
+  //   for (let index = 0; index < 30; index++) {
+  //     let product = {
+  //       'name': faker.commerce.productName(),
+  //       'description': faker.lorem.paragraph(2),
+  //       'image': faker.image.imageUrl(640, 640, 'food'),
+  //       'category': faker.commerce.department(),
+  //       'price': faker.datatype.number(8999),
+  //     };
 
-      await this.createMerchantProduct(merchatId, product);
-    }
-  }
+  //     await this.createMerchantProduct(merchatId, product);
+  //   }
+  // }
 
-  private async createMerchantProduct(merchantId: string, product: any) {
-    await this.firestoreDatabase.collection('merchants').doc(merchantId).collection('products').add(product);
-  }
+  // private async createMerchantProduct(merchantId: string, product: any) {
+  //   await this.firestoreDatabase.collection('merchants').doc(merchantId).collection('products').add(product);
+  // }
 
-  private async createMerchantDocument(merchant: any): Promise<string> {
-    let documentReference = await this.firestoreDatabase.collection('merchants').add(merchant);
-    return documentReference.id;
-  }
+  // private async createMerchantDocument(merchant: any): Promise<string> {
+  //   let documentReference = await this.firestoreDatabase.collection('merchants').add(merchant);
+  //   return documentReference.id;
+  // }
 
   private async createGenerateDocument(): Promise<void> {
     log('createGenerateDocument');
@@ -90,5 +91,16 @@ export class FakeDataPopulator {
 
   private getGenerateDocument(): firestore.DocumentReference {
     return this.firestoreDatabase.collection('data').doc('generate');
+  }
+
+
+
+  
+  // private async createMerchantProductForSpecificRegion(merchantId: string, product: any) {
+  //   await this.firestoreDatabase.collection('merchants').doc(merchantId).collection('products').add(product);
+  // }
+  private async createMerchantDocumentForSpecificRegion(merchant: any, regionId: string): Promise<string> {
+    let documentReference = await this.firestoreDatabase.collection('regions').doc(regionId).collection('merchants').add(merchant);
+    return documentReference.id;
   }
 }

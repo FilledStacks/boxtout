@@ -19,7 +19,7 @@ class User with _$User {
 }
 
 @freezed
-abstract class Address with _$Address {
+class Address with _$Address {
   factory Address({
     String? id,
     required String placeId,
@@ -33,4 +33,18 @@ abstract class Address with _$Address {
 
   factory Address.fromJson(Map<String, dynamic> json) =>
       _$AddressFromJson(json);
+}
+
+@freezed
+class Merchant with _$Merchant {
+  factory Merchant(
+      {required String id,
+      List<String>? categories,
+      String? image,
+      String? name,
+      int? numberOfRatings,
+      double? rating}) = _Merchant;
+
+  factory Merchant.fromJson(Map<String, dynamic> json) =>
+      _$MerchantFromJson(json);
 }

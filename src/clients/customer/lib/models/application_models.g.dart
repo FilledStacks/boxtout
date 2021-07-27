@@ -44,3 +44,26 @@ Map<String, dynamic> _$_$_AddressToJson(_$_Address instance) =>
       'state': instance.state,
       'postalCode': instance.postalCode,
     };
+
+_$_Merchant _$_$_MerchantFromJson(Map<String, dynamic> json) {
+  return _$_Merchant(
+    id: json['id'] as String,
+    categories: (json['categories'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList(),
+    image: json['image'] as String?,
+    name: json['name'] as String?,
+    numberOfRatings: json['numberOfRatings'] as int?,
+    rating: (json['rating'] as num?)?.toDouble(),
+  );
+}
+
+Map<String, dynamic> _$_$_MerchantToJson(_$_Merchant instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'categories': instance.categories,
+      'image': instance.image,
+      'name': instance.name,
+      'numberOfRatings': instance.numberOfRatings,
+      'rating': instance.rating,
+    };

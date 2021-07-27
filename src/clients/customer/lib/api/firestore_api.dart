@@ -99,4 +99,31 @@ class FirestoreApi {
   CollectionReference getAddressCollectionForUser(String userId) {
     return usersCollection.doc(userId).collection(AddressesFirestoreKey);
   }
+
+  Future<List<Merchant>> getMerchantsCollectionForRegion(
+      {required String regionId}) async {
+    log.i('regionId:$regionId');
+    try {
+      final regionCollections =
+          await regionsCollection.doc(regionId).collection('merchants').get();
+      if (regionCollections.docs.isEmpty) {
+        log.v('We have no merchants in this region');
+        return [];
+      }
+
+      final regionCollectionsDocuments = regionCollections.docs;
+      log.v(
+          'for regionId: $regionId, Merchants fetched: $regionCollectionsDocuments');
+      List<Merchant> merchants = regionCollectionsDocuments.map((merchant) {
+        var data = merchant.data();
+        data.putIfAbsent('id', () => merchant.id);
+        return Merchant.fromJson(data);
+      }).toList();
+      return merchants;
+    } catch (error) {
+      throw FirestoreApiException(
+          message:
+              'An error ocurred while calling getMerchantsCollectionForRegion(): $error');
+    }
+  }
 }

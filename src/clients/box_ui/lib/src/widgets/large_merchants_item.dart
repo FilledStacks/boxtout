@@ -35,18 +35,18 @@ class LargeMerchantItem extends StatelessWidget {
           images: images,
         ),
         verticalSpaceSmall,
-        Text(name, style: subheadingStyle.copyWith(color: kcDeepGreyColor)),
+        BoxText.subheading(name),
         verticalSpaceTiny,
-        Text(categories.join(' • '),
-            style: bodyStyle.copyWith(color: kcMediumGreyColor)),
+        BoxText.body(
+          categories.join(' • '),
+          color: kcMediumGreyColor,
+        ),
         verticalSpaceSmall,
         Row(
           children: [
             if (rating != null) ...[
-              Text(
+              BoxText.caption(
                 rating.toString(),
-                style: captionStyle.copyWith(
-                    color: kcDeepGreyColor.withOpacity(0.74)),
               ),
               horizontalSpaceTiny,
               Icon(
@@ -55,10 +55,8 @@ class LargeMerchantItem extends StatelessWidget {
                 size: 15,
               ),
               horizontalSpaceTiny,
-              Text(
+              BoxText.caption(
                 numberOfRatings.toString() + ' Ratings',
-                style: captionStyle.copyWith(
-                    color: kcDeepGreyColor.withOpacity(0.74)),
               ),
               horizontalSpaceTiny,
             ],
@@ -69,17 +67,16 @@ class LargeMerchantItem extends StatelessWidget {
                 size: 15,
               ),
               horizontalSpaceTiny,
-              Text(
+              BoxText.caption(
                 deliveryInMinutes.toString() + ' Min',
-                style: captionStyle.copyWith(
-                    color: kcDeepGreyColor.withOpacity(0.74)),
               ),
               horizontalSpaceTiny,
             ],
             if (deliveryCost != null) ...[
-              Text('•',
-                  style: bodyStyle.copyWith(
-                      color: kcMediumGreyColor.withOpacity(0.5))),
+              BoxText.body(
+                '•',
+                color: kcMediumGreyColor.withOpacity(0.5),
+              ),
               horizontalSpaceTiny,
               Icon(
                 Icons.attach_money_rounded,
@@ -87,10 +84,8 @@ class LargeMerchantItem extends StatelessWidget {
                 size: 15,
               ),
               horizontalSpaceTiny,
-              Text(
+              BoxText.caption(
                 deliveryCost == 0.0 ? 'Free' : deliveryCost.toString(),
-                style: captionStyle.copyWith(
-                    color: kcDeepGreyColor.withOpacity(0.74)),
               ),
             ]
           ],

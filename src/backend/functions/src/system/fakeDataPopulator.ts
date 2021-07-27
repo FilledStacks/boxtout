@@ -46,7 +46,11 @@ export class FakeDataPopulator {
     for (let index = 0; index < NUMBER_OF_FAKE_MERCHANTS; index++) {
       let merchant = {
         'name': faker.commerce.productName(),
-        'image': faker.image.imageUrl(640, 640, 'food'),
+        'images': [
+          faker.image.imageUrl(1024, 640, 'food',true),
+          faker.image.imageUrl(1024, 640, 'food',true),
+          faker.image.imageUrl(1024, 640, 'food',true),
+        ],
         'categories': [
           faker.commerce.department(),
           faker.commerce.department()

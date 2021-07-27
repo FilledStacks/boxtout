@@ -524,14 +524,14 @@ class _$MerchantTearOff {
   _Merchant call(
       {required String id,
       List<String>? categories,
-      String? image,
+      List<String>? images,
       String? name,
       int? numberOfRatings,
       double? rating}) {
     return _Merchant(
       id: id,
       categories: categories,
-      image: image,
+      images: images,
       name: name,
       numberOfRatings: numberOfRatings,
       rating: rating,
@@ -550,7 +550,7 @@ const $Merchant = _$MerchantTearOff();
 mixin _$Merchant {
   String get id => throw _privateConstructorUsedError;
   List<String>? get categories => throw _privateConstructorUsedError;
-  String? get image => throw _privateConstructorUsedError;
+  List<String>? get images => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   int? get numberOfRatings => throw _privateConstructorUsedError;
   double? get rating => throw _privateConstructorUsedError;
@@ -568,7 +568,7 @@ abstract class $MerchantCopyWith<$Res> {
   $Res call(
       {String id,
       List<String>? categories,
-      String? image,
+      List<String>? images,
       String? name,
       int? numberOfRatings,
       double? rating});
@@ -586,7 +586,7 @@ class _$MerchantCopyWithImpl<$Res> implements $MerchantCopyWith<$Res> {
   $Res call({
     Object? id = freezed,
     Object? categories = freezed,
-    Object? image = freezed,
+    Object? images = freezed,
     Object? name = freezed,
     Object? numberOfRatings = freezed,
     Object? rating = freezed,
@@ -600,10 +600,10 @@ class _$MerchantCopyWithImpl<$Res> implements $MerchantCopyWith<$Res> {
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      image: image == freezed
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String?,
+      images: images == freezed
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -628,7 +628,7 @@ abstract class _$MerchantCopyWith<$Res> implements $MerchantCopyWith<$Res> {
   $Res call(
       {String id,
       List<String>? categories,
-      String? image,
+      List<String>? images,
       String? name,
       int? numberOfRatings,
       double? rating});
@@ -647,7 +647,7 @@ class __$MerchantCopyWithImpl<$Res> extends _$MerchantCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? categories = freezed,
-    Object? image = freezed,
+    Object? images = freezed,
     Object? name = freezed,
     Object? numberOfRatings = freezed,
     Object? rating = freezed,
@@ -661,10 +661,10 @@ class __$MerchantCopyWithImpl<$Res> extends _$MerchantCopyWithImpl<$Res>
           ? _value.categories
           : categories // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      image: image == freezed
-          ? _value.image
-          : image // ignore: cast_nullable_to_non_nullable
-              as String?,
+      images: images == freezed
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -687,7 +687,7 @@ class _$_Merchant implements _Merchant {
   _$_Merchant(
       {required this.id,
       this.categories,
-      this.image,
+      this.images,
       this.name,
       this.numberOfRatings,
       this.rating});
@@ -700,7 +700,7 @@ class _$_Merchant implements _Merchant {
   @override
   final List<String>? categories;
   @override
-  final String? image;
+  final List<String>? images;
   @override
   final String? name;
   @override
@@ -710,7 +710,7 @@ class _$_Merchant implements _Merchant {
 
   @override
   String toString() {
-    return 'Merchant(id: $id, categories: $categories, image: $image, name: $name, numberOfRatings: $numberOfRatings, rating: $rating)';
+    return 'Merchant(id: $id, categories: $categories, images: $images, name: $name, numberOfRatings: $numberOfRatings, rating: $rating)';
   }
 
   @override
@@ -722,8 +722,8 @@ class _$_Merchant implements _Merchant {
             (identical(other.categories, categories) ||
                 const DeepCollectionEquality()
                     .equals(other.categories, categories)) &&
-            (identical(other.image, image) ||
-                const DeepCollectionEquality().equals(other.image, image)) &&
+            (identical(other.images, images) ||
+                const DeepCollectionEquality().equals(other.images, images)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.numberOfRatings, numberOfRatings) ||
@@ -738,7 +738,7 @@ class _$_Merchant implements _Merchant {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(categories) ^
-      const DeepCollectionEquality().hash(image) ^
+      const DeepCollectionEquality().hash(images) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(numberOfRatings) ^
       const DeepCollectionEquality().hash(rating);
@@ -758,7 +758,7 @@ abstract class _Merchant implements Merchant {
   factory _Merchant(
       {required String id,
       List<String>? categories,
-      String? image,
+      List<String>? images,
       String? name,
       int? numberOfRatings,
       double? rating}) = _$_Merchant;
@@ -770,7 +770,7 @@ abstract class _Merchant implements Merchant {
   @override
   List<String>? get categories => throw _privateConstructorUsedError;
   @override
-  String? get image => throw _privateConstructorUsedError;
+  List<String>? get images => throw _privateConstructorUsedError;
   @override
   String? get name => throw _privateConstructorUsedError;
   @override

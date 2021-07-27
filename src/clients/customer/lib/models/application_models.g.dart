@@ -51,7 +51,8 @@ _$_Merchant _$_$_MerchantFromJson(Map<String, dynamic> json) {
     categories: (json['categories'] as List<dynamic>?)
         ?.map((e) => e as String)
         .toList(),
-    image: json['image'] as String?,
+    images:
+        (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
     name: json['name'] as String?,
     numberOfRatings: json['numberOfRatings'] as int?,
     rating: (json['rating'] as num?)?.toDouble(),
@@ -62,7 +63,7 @@ Map<String, dynamic> _$_$_MerchantToJson(_$_Merchant instance) =>
     <String, dynamic>{
       'id': instance.id,
       'categories': instance.categories,
-      'image': instance.image,
+      'images': instance.images,
       'name': instance.name,
       'numberOfRatings': instance.numberOfRatings,
       'rating': instance.rating,

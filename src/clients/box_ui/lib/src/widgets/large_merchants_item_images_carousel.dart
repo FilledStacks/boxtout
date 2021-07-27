@@ -1,9 +1,10 @@
+import 'package:box_ui/src/shared/app_colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 class LargeMerchantsItemImagesCarsouel extends StatefulWidget {
-  final List<String> imagesUrl;
-  const LargeMerchantsItemImagesCarsouel({Key? key, required this.imagesUrl})
+  final List<String> images;
+  const LargeMerchantsItemImagesCarsouel({Key? key, required this.images})
       : super(key: key);
 
   @override
@@ -21,9 +22,14 @@ class _LargeMerchantsItemImagesCarsouelState
         ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: CarouselSlider(
-              items: widget.imagesUrl
-                  .map((imageUrl) => Image.network(
-                        imageUrl,
+              items: widget.images
+                  .map((imageUrl) => Container(
+                        width: double.infinity,
+                        color: kcLightGreyColor,
+                        child: Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                        ),
                       ))
                   .toList(),
               options: CarouselOptions(
@@ -40,7 +46,7 @@ class _LargeMerchantsItemImagesCarsouelState
           right: 20,
           child: Row(
             children: [
-              ...widget.imagesUrl.asMap().entries.map((map) => Container(
+              ...widget.images.asMap().entries.map((map) => Container(
                     margin: const EdgeInsets.only(right: 8),
                     width: 8,
                     height: 5,

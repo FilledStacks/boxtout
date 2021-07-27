@@ -28,33 +28,33 @@ class ExampleView extends StatelessWidget {
         BoxText.headline('LargeMerchantItem'),
         verticalSpaceMedium,
         LargeMerchantItem(
-          restaurantName: 'McDonald',
-          imagesUrl: [
+          name: 'McDonald',
+          images: [
             'https://baconmockup.com/640/360',
             'https://baconmockup.com/641/360',
             'https://baconmockup.com/639/360',
             'https://baconmockup.com/638/360'
           ],
-          cuisines: ['Arabic', 'Turkish', 'Chinese'],
+          categories: ['Arabic', 'Turkish', 'Chinese'],
           deliveryCost: 4.2,
           deliveryInMinutes: 26,
           rating: 3.4,
-          ratingCount: 41,
+          numberOfRatings: 41,
         ),
         verticalSpaceMedium,
         LargeMerchantItem(
-          restaurantName: 'McDonald',
-          imagesUrl: [
+          name: 'McDonald',
+          images: [
             'https://baconmockup.com/640/360',
             'https://baconmockup.com/641/360',
             'https://baconmockup.com/639/360',
             'https://baconmockup.com/638/360'
           ],
-          cuisines: ['Arabic', 'Turkish', 'Chinese'],
+          categories: ['Arabic', 'Turkish', 'Chinese'],
           deliveryCost: 0,
           deliveryInMinutes: 26,
           rating: 3.4,
-          ratingCount: 41,
+          numberOfRatings: 41,
         )
       ];
   List<Widget> get textWidgets => [

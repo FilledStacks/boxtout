@@ -1,4 +1,3 @@
-// Horizontal Spacing
 import 'package:flutter/material.dart';
 
 const Widget horizontalSpaceTiny = SizedBox(width: 5.0);
@@ -23,3 +22,5 @@ double screenHeightPercentage(BuildContext context, {double percentage = 1}) =>
 
 double screenWidthPercentage(BuildContext context, {double percentage = 1}) =>
     screenWidth(context) * percentage;
+
+const double screenHorizontalPadding = 16;

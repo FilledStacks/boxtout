@@ -11,13 +11,34 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
-        body: Center(
-          child: BoxButton(
-            title: 'title',
-            onTap: model.onTap,
-          ),
-        ),
-      ),
+          body: model.isBusy
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : model.hasError
+                  ? BoxText.headingThree(
+                      'An error has occered while running the future',
+                    )
+                  : model.data.isEmpty
+                      ? Text('There is currently no merchants for this region')
+                      : ListView.builder(
+                          padding: EdgeInsets.symmetric(
+                              vertical: screenHeightPercentage(context,
+                                  percentage: 0.1),
+                              horizontal: screenHorizontalPadding),
+                          itemCount: model.data.length,
+                          itemBuilder: (context, index) => Padding(
+                                padding: const EdgeInsets.only(bottom: 24),
+                                child: LargeMerchantItem(
+                                  images: model.data[index].images ?? [],
+                                  categories:
+                                      model.data[index].categories ?? [],
+                                  name: model.data[index].name ?? '',
+                                  rating: model.data[index].rating,
+                                  numberOfRatings:
+                                      model.data[index].numberOfRatings,
+                                ),
+                              ))),
       viewModelBuilder: () => HomeViewModel(),
     );
   }

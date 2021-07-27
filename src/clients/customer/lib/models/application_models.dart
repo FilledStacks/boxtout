@@ -40,7 +40,7 @@ class Merchant with _$Merchant {
   factory Merchant(
       {required String id,
       List<String>? categories,
-      String? image,
+      List<String>? images,
       String? name,
       int? numberOfRatings,
       double? rating}) = _Merchant;

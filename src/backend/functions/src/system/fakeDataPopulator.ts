@@ -7,6 +7,9 @@ function log(message: string) { console.log(`FakeDataPopulator | ${message}`); }
 const FAKE_REGION_NAME = 'cape-town'
 const NUMBER_OF_FAKE_MERCHANTS = 10
 const NUMBER_OF_FAKE_PRODUCTS_PER_MERCHANTS = 30
+const MERCHANTS_COLLECTION = 'merchants'
+const REGIONS_COLLECTION = 'regions'
+const PRODUCTS_COLLECTION = 'products'
 /**
  * A class that helps with populating a local firestore database
  */
@@ -37,7 +40,7 @@ export class FakeDataPopulator {
   private async generateRegions() {
     log('generateRegions');
 
-    await this.firestoreDatabase.collection('regions').doc(FAKE_REGION_NAME).set({});
+    await this.firestoreDatabase.collection(REGIONS_COLLECTION).doc(FAKE_REGION_NAME).set({});
   }
 
   private async generateMerchants() {
@@ -81,12 +84,12 @@ export class FakeDataPopulator {
     }
   }
   private async createMerchantDocumentForSpecificRegion(merchant: any, regionId: string): Promise<string> {
-    let documentReference = await this.firestoreDatabase.collection('regions').doc(regionId).collection('merchants').add(merchant);
+    let documentReference = await this.firestoreDatabase.collection(REGIONS_COLLECTION).doc(regionId).collection(MERCHANTS_COLLECTION).add(merchant);
     return documentReference.id;
   }
 
   private async createMerchantProductForSpecificRegion(merchantId: string, product: any) {
-    await this.firestoreDatabase.collection('regions').doc(FAKE_REGION_NAME).collection('merchants').doc(merchantId).collection('products').add(product)
+    await this.firestoreDatabase.collection(REGIONS_COLLECTION).doc(FAKE_REGION_NAME).collection(MERCHANTS_COLLECTION).doc(merchantId).collection(PRODUCTS_COLLECTION).add(product)
   }
 
   private async createGenerateDocument(): Promise<void> {

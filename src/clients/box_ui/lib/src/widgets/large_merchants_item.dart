@@ -31,7 +31,7 @@ class LargeMerchantItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LargeMerchantsItemImagesCarsouel(
+        LargeMerchantsItemImagesCarousel(
           images: images,
         ),
         verticalSpaceSmall,

@@ -5,7 +5,7 @@ import 'package:customer/models/application_models.dart';
 import 'package:stacked/stacked.dart';
 import 'package:customer/app/app.logger.dart';
 
-class HomeViewModel extends FutureViewModel {
+class HomeViewModel extends FutureViewModel<List<Merchant>> {
   final log = getLogger('HomeViewModel');
 
   final _fireStoreApi = locator<FirestoreApi>();
@@ -26,5 +26,5 @@ class HomeViewModel extends FutureViewModel {
   }
 
   @override
-  Future futureToRun() => getMerchantsForRegion();
+  Future<List<Merchant>> futureToRun() => getMerchantsForRegion();
 }

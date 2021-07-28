@@ -14,7 +14,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class StartUpViewModel extends BaseViewModel {
   final log = getLogger('StartUpViewModel');
   final _userService = locator<UserService>();
-  final _fireStoreApi = locator<FirestoreApi>();
   final _navigationService = locator<NavigationService>();
   final _placesService = locator<PlacesService>();
   final _environmentService = locator<EnvironmentService>();

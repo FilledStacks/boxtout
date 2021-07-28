@@ -104,10 +104,12 @@ class FirestoreApi {
       {required String regionId}) async {
     log.i('regionId:$regionId');
     try {
-      final regionCollections =
-          await regionsCollection.doc(regionId).collection('merchants').get();
+      final regionCollections = await regionsCollection
+          .doc(regionId)
+          .collection(MerchantsFirestoreKey)
+          .get();
       if (regionCollections.docs.isEmpty) {
-        log.v('We have no merchants in this region');
+        log.w('We have no merchants in this region');
         return [];
       }
 

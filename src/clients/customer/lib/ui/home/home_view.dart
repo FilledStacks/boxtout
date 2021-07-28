@@ -19,26 +19,28 @@ class HomeView extends StatelessWidget {
                   ? BoxText.headingThree(
                       'An error has occered while running the future',
                     )
-                  : model.data.isEmpty
-                      ? Text('There is currently no merchants for this region')
+                  : model.data!.isEmpty
+                      ? BoxText.headingThree(
+                          'There is currently no merchants for this region')
                       : ListView.builder(
                           padding: EdgeInsets.symmetric(
                               vertical: screenHeightPercentage(context,
                                   percentage: 0.1),
                               horizontal: screenHorizontalPadding),
-                          itemCount: model.data.length,
-                          itemBuilder: (context, index) => Padding(
-                                padding: const EdgeInsets.only(bottom: 24),
-                                child: LargeMerchantItem(
-                                  images: model.data[index].images ?? [],
-                                  categories:
-                                      model.data[index].categories ?? [],
-                                  name: model.data[index].name ?? '',
-                                  rating: model.data[index].rating,
-                                  numberOfRatings:
-                                      model.data[index].numberOfRatings,
-                                ),
-                              ))),
+                          itemCount: model.data!.length,
+                          itemBuilder: (context, index) {
+                            final merchantItem = model.data![index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 24),
+                              child: LargeMerchantItem(
+                                images: merchantItem.images ?? [],
+                                categories: merchantItem.categories ?? [],
+                                name: merchantItem.name ?? '',
+                                rating: merchantItem.rating,
+                                numberOfRatings: merchantItem.numberOfRatings,
+                              ),
+                            );
+                          })),
       viewModelBuilder: () => HomeViewModel(),
     );
   }

@@ -80,7 +80,7 @@ export class FakeDataPopulator {
         'price': faker.datatype.number(8999),
       };
 
-      await this.createMerchantProductForSpecificRegion(merchantId, product);
+      await this.createMerchantProduct(merchantId, product);
     }
   }
   private async createMerchantDocumentForSpecificRegion(merchant: any, regionId: string): Promise<string> {
@@ -88,7 +88,7 @@ export class FakeDataPopulator {
     return documentReference.id;
   }
 
-  private async createMerchantProductForSpecificRegion(merchantId: string, product: any) {
+  private async createMerchantProduct(merchantId: string, product: any) {
     await this.firestoreDatabase.collection(REGIONS_COLLECTION).doc(FAKE_REGION_NAME).collection(MERCHANTS_COLLECTION).doc(merchantId).collection(PRODUCTS_COLLECTION).add(product)
   }
 

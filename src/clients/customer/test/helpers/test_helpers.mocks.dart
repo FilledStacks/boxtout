@@ -408,9 +408,19 @@ class MockFirestoreApi extends _i1.Mock implements _i16.FirestoreApi {
       (super.noSuchMethod(Invocation.method(#isCityServiced, [], {#city: city}),
           returnValue: Future<bool>.value(false)) as _i7.Future<bool>);
   @override
-  _i5.CollectionReference getAddressCollectionForUser(String? userId) => (super
-      .noSuchMethod(Invocation.method(#getAddressCollectionForUser, [userId]),
-          returnValue: _FakeCollectionReference()) as _i5.CollectionReference);
+  _i7.Future<List<_i2.Address>> getAddressListForUser(String? userId) =>
+      (super.noSuchMethod(Invocation.method(#getAddressListForUser, [userId]),
+              returnValue: Future<List<_i2.Address>>.value(<_i2.Address>[]))
+          as _i7.Future<List<_i2.Address>>);
+  @override
+  String extractRegionIdFromUserAddresses(
+          {List<_i2.Address>? addresses, String? userDefaultAddressId}) =>
+      (super.noSuchMethod(
+          Invocation.method(#extractRegionIdFromUserAddresses, [], {
+            #addresses: addresses,
+            #userDefaultAddressId: userDefaultAddressId
+          }),
+          returnValue: '') as String);
   @override
   _i7.Future<List<_i2.Merchant>> getMerchantsCollectionForRegion(
           {String? regionId}) =>

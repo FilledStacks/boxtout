@@ -14,12 +14,12 @@ class HomeViewModel extends FutureViewModel<List<Merchant>> {
 
   Future<List<Merchant>> getMerchantsForRegion() async {
     try {
-      log.i("fetch merchints from firestore");
+      log.i(
+          "fetch merchints from firestore where user: ${_userService.currentUser}");
 
       final userAddresses = await _fireStoreApi
           .getAddressListForUser(_userService.currentUser.id);
-
-      final addressRegionId = _fireStoreApi.getRegionIdForUser(
+      final addressRegionId = _fireStoreApi.extractRegionIdFromUserAddresses(
           addresses: userAddresses,
           userDefaultAddressId: _userService.currentUser.defaultAddress!);
 

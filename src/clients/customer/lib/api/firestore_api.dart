@@ -120,7 +120,7 @@ class FirestoreApi {
     }
   }
 
-  String getRegionIdForUser(
+  String extractRegionIdFromUserAddresses(
       {required List<Address> addresses,
       required String userDefaultAddressId}) {
     log.i('addresses:$addresses, userDefaultAddressId:$userDefaultAddressId');

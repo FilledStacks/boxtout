@@ -103,12 +103,20 @@ class FirestoreApi {
 
   Future<List<Address>> getAddressListForUser(String userId) async {
     log.i('userId:$userId');
-    final addressCollection = await _getAddressCollectionForUser(userId).get();
+    try {
+      final addressCollection =
+          await _getAddressCollectionForUser(userId).get();
+      log.v('addressCollection: ${addressCollection.toString()}');
 
-    List<Address> addresses = addressCollection.docs.map((address) {
-      return Address.fromJson(address.data());
-    }).toList();
-    return addresses;
+      List<Address> addresses = addressCollection.docs.map((address) {
+        return Address.fromJson(address.data());
+      }).toList();
+      return addresses;
+    } catch (e) {
+      throw FirestoreApiException(
+        message: "getAddressListForUser() failed, $e",
+      );
+    }
   }
 
   String getRegionIdForUser(

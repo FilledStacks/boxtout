@@ -85,8 +85,8 @@ class FirestoreApi {
       }
 
       return true;
-    } on Exception catch (e) {
-      log.e('we could not save the users address. $e');
+    } on Exception catch (error) {
+      log.e('we could not save the users address. $error');
       return false;
     }
   }
@@ -112,9 +112,10 @@ class FirestoreApi {
         return Address.fromJson(address.data());
       }).toList();
       return addresses;
-    } catch (e) {
+    } catch (error) {
       throw FirestoreApiException(
-        message: "getAddressListForUser() failed, $e",
+        devDetails: error.toString(),
+        message: "getAddressListForUser() failed,",
       );
     }
   }
@@ -130,10 +131,11 @@ class FirestoreApi {
           )
           .city!
           .toCityDocument;
-    } on StateError catch (e) {
+    } on StateError catch (error) {
       throw FirestoreApiException(
+        devDetails: error.toString(),
         message:
-            "we couldn't found the default address of the user in our address collection, ${e.message}",
+            "we couldn't found the default address of the user in our address collection",
       );
     }
   }
@@ -162,8 +164,9 @@ class FirestoreApi {
       return merchants;
     } catch (error) {
       throw FirestoreApiException(
+          devDetails: error.toString(),
           message:
-              'An error ocurred while calling getMerchantsCollectionForRegion(): $error');
+              'An error ocurred while calling getMerchantsCollectionForRegion()');
     }
   }
 }

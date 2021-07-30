@@ -11,6 +11,7 @@ class HomeViewModel extends FutureViewModel<List<Merchant>> {
 
   final _fireStoreApi = locator<FirestoreApi>();
   final _userService = locator<UserService>();
+
   Future<List<Merchant>> getMerchantsForRegion() async {
     try {
       log.i("fetch merchints from firestore");
@@ -27,8 +28,8 @@ class HomeViewModel extends FutureViewModel<List<Merchant>> {
 
       log.v('List of merchants: ${merchants.toString()}');
       return merchants;
-    } on FirestoreApiException catch (e) {
-      log.e(e.toString());
+    } on FirestoreApiException catch (error) {
+      log.e(error.toString());
       throw Exception('An error happened while fetching merchints');
     }
   }

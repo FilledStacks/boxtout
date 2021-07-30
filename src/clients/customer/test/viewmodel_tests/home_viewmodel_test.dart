@@ -16,12 +16,12 @@ void main() {
           () async {
         final userService = getAndRegisterUserService(
             currentUser: User(id: 'id', defaultAddress: 'i-am-here'));
-        final firestoreApiService = getAndRegisterFirestoreApi();
+        final firestoreApi = getAndRegisterFirestoreApi();
 
         final model = _getModel();
         await model.getMerchantsForRegion();
         final userId = userService.currentUser.id;
-        verify(firestoreApiService.getAddressListForUser(userId));
+        verify(firestoreApi.getAddressListForUser(userId));
       });
       test(
           'When called, should call extractRegionIdFromUserAddresses using addresses from getAddressListForUser',
@@ -31,8 +31,8 @@ void main() {
               id: 'i-am-here',
               placeId: 'placeId',
               city: 'cape-town',
-              lattitude: 1,
-              longitute: 2)
+              lattitude: 0,
+              longitute: 0)
         ];
         final userService = getAndRegisterUserService(
             hasLoggedInUser: true,
@@ -47,6 +47,19 @@ void main() {
         verify(firestoreApi.extractRegionIdFromUserAddresses(
             addresses: userAdresses,
             userDefaultAddressId: userDefaultAddress!));
+      });
+      test(
+          'When called, should call getMerchantsCollectionForRegion using addressRegionId from extractRegionIdFromUserAddresses',
+          () async {
+        const RegionId = 'id';
+        getAndRegisterUserService(
+            currentUser: User(id: 'id', defaultAddress: 'i-am-here'));
+        final firestoreApi = getAndRegisterFirestoreApi(regionId: RegionId);
+
+        final model = _getModel();
+        await model.getMerchantsForRegion();
+        verify(
+            firestoreApi.getMerchantsCollectionForRegion(regionId: RegionId));
       });
     });
   });

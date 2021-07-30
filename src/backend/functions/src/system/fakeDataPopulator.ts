@@ -50,15 +50,19 @@ export class FakeDataPopulator {
       let merchant = {
         'name': faker.commerce.productName(),
         'images': [
-          faker.image.imageUrl(1024, 640, 'food',true),
-          faker.image.imageUrl(1024, 640, 'food',true),
-          faker.image.imageUrl(1024, 640, 'food',true),
+          faker.image.imageUrl(1024, 640, 'food', true),
+          faker.image.imageUrl(1024, 640, 'food', true),
+          faker.image.imageUrl(1024, 640, 'food', true),
         ],
         'categories': [
           faker.commerce.department(),
           faker.commerce.department()
         ],
-        'rating': faker.datatype.float(2),
+        'rating': faker.datatype.float({
+          min: 0,
+          max: 5,
+          precision: 2
+        }),
         'numberOfRatings': faker.datatype.number(200),
       };
 

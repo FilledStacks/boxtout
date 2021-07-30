@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customer/constants/app_keys.dart';
 import 'package:customer/exceptions/firestore_api_exception.dart';
 import 'package:customer/models/application_models.dart';
+import 'package:customer/extensions/string_extensions.dart';
 
 class FirestoreApi {
   final log = getLogger('FirestoreApi');
@@ -61,7 +62,7 @@ class FirestoreApi {
     log.i('address:$address');
 
     try {
-      final addressDoc = getAddressCollectionForUser(user.id).doc();
+      final addressDoc = _getAddressCollectionForUser(user.id).doc();
       final newAddressId = addressDoc.id;
       log.v('Address will be stored with id: $newAddressId');
 
@@ -96,8 +97,37 @@ class FirestoreApi {
     return cityDocument.exists;
   }
 
-  CollectionReference getAddressCollectionForUser(String userId) {
+  CollectionReference _getAddressCollectionForUser(String userId) {
     return usersCollection.doc(userId).collection(AddressesFirestoreKey);
+  }
+
+  Future<List<Address>> getAddressListForUser(String userId) async {
+    log.i('userId:$userId');
+    final addressCollection = await _getAddressCollectionForUser(userId).get();
+
+    List<Address> addresses = addressCollection.docs.map((address) {
+      return Address.fromJson(address.data());
+    }).toList();
+    return addresses;
+  }
+
+  String getRegionIdForUser(
+      {required List<Address> addresses,
+      required String userDefaultAddressId}) {
+    log.i('addresses:$addresses, userDefaultAddressId:$userDefaultAddressId');
+    try {
+      return addresses
+          .firstWhere(
+            (address) => address.id == userDefaultAddressId,
+          )
+          .city!
+          .toCityDocument;
+    } on StateError catch (e) {
+      throw FirestoreApiException(
+        message:
+            "we couldn't found the default address of the user in our address collection, ${e.message}",
+      );
+    }
   }
 
   Future<List<Merchant>> getMerchantsCollectionForRegion(

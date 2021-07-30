@@ -16,12 +16,19 @@ class HomeView extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 )
               : model.hasError
-                  ? BoxText.headingThree(
-                      'An error has occered while running the future',
+                  ? Center(
+                      child: BoxText.headingThree(
+                        'An error has occered while running the future',
+                        align: TextAlign.center,
+                      ),
                     )
                   : model.data!.isEmpty
-                      ? BoxText.headingThree(
-                          'There is currently no merchants for this region')
+                      ? Center(
+                          child: BoxText.headingThree(
+                            'There is currently no merchants for this region',
+                            align: TextAlign.center,
+                          ),
+                        )
                       : ListView.builder(
                           padding: EdgeInsets.symmetric(
                               vertical: screenHeightPercentage(context,

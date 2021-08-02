@@ -19,12 +19,12 @@ class HomeViewModel extends FutureViewModel<List<Merchant>> {
 
       final userAddresses = await _fireStoreApi
           .getAddressListForUser(_userService.currentUser.id);
-      final addressRegionId = _fireStoreApi.extractRegionIdFromUserAddresses(
+      final regionId = _fireStoreApi.extractRegionIdFromUserAddresses(
           addresses: userAddresses,
           userDefaultAddressId: _userService.currentUser.defaultAddress!);
 
       final merchants = await _fireStoreApi.getMerchantsCollectionForRegion(
-          regionId: addressRegionId);
+          regionId: regionId);
 
       log.v('List of merchants: ${merchants.toString()}');
       return merchants;

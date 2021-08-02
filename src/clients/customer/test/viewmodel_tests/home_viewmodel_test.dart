@@ -35,7 +35,6 @@ void main() {
               longitute: 0)
         ];
         final userService = getAndRegisterUserService(
-            hasLoggedInUser: true,
             currentUser: User(id: 'id', defaultAddress: 'i-am-here'));
         final firestoreApi =
             getAndRegisterFirestoreApi(userAdresses: userAdresses);

@@ -4,7 +4,12 @@ import * as faker from 'faker';
 
 // enable short hand for console.log()
 function log(message: string) { console.log(`FakeDataPopulator | ${message}`); }
-
+const FAKE_REGION_NAME = 'cape-town'
+const NUMBER_OF_FAKE_MERCHANTS = 10
+const NUMBER_OF_FAKE_PRODUCTS_PER_MERCHANTS = 30
+const MERCHANTS_COLLECTION = 'merchants'
+const REGIONS_COLLECTION = 'regions'
+const PRODUCTS_COLLECTION = 'products'
 /**
  * A class that helps with populating a local firestore database
  */
@@ -35,33 +40,42 @@ export class FakeDataPopulator {
   private async generateRegions() {
     log('generateRegions');
 
-    await this.firestoreDatabase.collection('regions').doc('cape-town').set({});
+    await this.firestoreDatabase.collection(REGIONS_COLLECTION).doc(FAKE_REGION_NAME).set({});
   }
 
   private async generateMerchants() {
     log('generateMerchants');
 
-    for (let index = 0; index < 30; index++) {
+    for (let index = 0; index < NUMBER_OF_FAKE_MERCHANTS; index++) {
       let merchant = {
         'name': faker.commerce.productName(),
-        'image': faker.image.imageUrl(640, 640, 'food'),
+        'images': [
+          faker.image.imageUrl(1024, 640, 'food', true),
+          faker.image.imageUrl(1024, 640, 'food', true),
+          faker.image.imageUrl(1024, 640, 'food', true),
+        ],
         'categories': [
           faker.commerce.department(),
           faker.commerce.department()
         ],
-        'rating': faker.datatype.float(2),
+        'rating': faker.datatype.float({
+          min: 0,
+          max: 5,
+          precision: 2
+        }),
         'numberOfRatings': faker.datatype.number(200),
       };
 
-      let merchantId = await this.createMerchantDocument(merchant);
+      let merchantId =
+        await this.createMerchantDocumentForSpecificRegion(merchant, FAKE_REGION_NAME);
       await this.generateMerchantsProducts(merchantId);
     }
   }
 
-  private async generateMerchantsProducts(merchatId: string) {
-    log(`generateMerchantsProducts merchatId:${merchatId}`);
+  private async generateMerchantsProducts(merchantId: string) {
+    log(`generateMerchantsProducts merchatId:${merchantId}`);
 
-    for (let index = 0; index < 30; index++) {
+    for (let index = 0; index < NUMBER_OF_FAKE_PRODUCTS_PER_MERCHANTS; index++) {
       let product = {
         'name': faker.commerce.productName(),
         'description': faker.lorem.paragraph(2),
@@ -70,17 +84,16 @@ export class FakeDataPopulator {
         'price': faker.datatype.number(8999),
       };
 
-      await this.createMerchantProduct(merchatId, product);
+      await this.createMerchantProduct(merchantId, product);
     }
+  }
+  private async createMerchantDocumentForSpecificRegion(merchant: any, regionId: string): Promise<string> {
+    let documentReference = await this.firestoreDatabase.collection(REGIONS_COLLECTION).doc(regionId).collection(MERCHANTS_COLLECTION).add(merchant);
+    return documentReference.id;
   }
 
   private async createMerchantProduct(merchantId: string, product: any) {
-    await this.firestoreDatabase.collection('merchants').doc(merchantId).collection('products').add(product);
-  }
-
-  private async createMerchantDocument(merchant: any): Promise<string> {
-    let documentReference = await this.firestoreDatabase.collection('merchants').add(merchant);
-    return documentReference.id;
+    await this.firestoreDatabase.collection(REGIONS_COLLECTION).doc(FAKE_REGION_NAME).collection(MERCHANTS_COLLECTION).doc(merchantId).collection(PRODUCTS_COLLECTION).add(product)
   }
 
   private async createGenerateDocument(): Promise<void> {
@@ -91,4 +104,5 @@ export class FakeDataPopulator {
   private getGenerateDocument(): firestore.DocumentReference {
     return this.firestoreDatabase.collection('data').doc('generate');
   }
+
 }

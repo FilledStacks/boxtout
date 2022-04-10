@@ -9,7 +9,7 @@ import 'package:customer/extensions/string_extensions.dart';
 class FirestoreApi {
   final log = getLogger('FirestoreApi');
 
-  final CollectionReference usersCollection =
+  final CollectionReference<Map<String, dynamic>> usersCollection =
       FirebaseFirestore.instance.collection(UsersFirestoreKey);
 
   final CollectionReference regionsCollection =
@@ -97,7 +97,8 @@ class FirestoreApi {
     return cityDocument.exists;
   }
 
-  CollectionReference _getAddressCollectionForUser(String userId) {
+  CollectionReference<Map<String, dynamic>> _getAddressCollectionForUser(
+      String userId) {
     return usersCollection.doc(userId).collection(AddressesFirestoreKey);
   }
 

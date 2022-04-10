@@ -34,13 +34,23 @@ mixin $AddressSelectionView on StatelessWidget {
     // The dispose function for a TextEditingController sets all listeners to null
 
     addressController.dispose();
+    addressFocusNode.dispose();
   }
 }
 
 extension ValueProperties on FormViewModel {
-  String? get addressValue => this.formValueMap[AddressValueKey];
+  String? get addressValue => this.formValueMap[AddressValueKey] as String?;
 
   bool get hasAddress => this.formValueMap.containsKey(AddressValueKey);
+
+  bool get hasAddressValidationMessage =>
+      this.fieldsValidationMessages[AddressValueKey]?.isNotEmpty ?? false;
+
+  String? get addressValidationMessage =>
+      this.fieldsValidationMessages[AddressValueKey];
 }
 
-extension Methods on FormViewModel {}
+extension Methods on FormViewModel {
+  setAddressValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[AddressValueKey] = validationMessage;
+}

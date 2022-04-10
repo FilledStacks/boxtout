@@ -8,7 +8,7 @@ class EnvironmentService {
 
   Future initialise() async {
     log.i('Load environment');
-    await dotenv.load(fileName: ".env");
+    await dotenv.load(fileName: "env/.env");
     log.v('Environement loaded');
   }
 

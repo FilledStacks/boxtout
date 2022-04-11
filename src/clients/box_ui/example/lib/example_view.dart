@@ -17,11 +17,46 @@ class ExampleView extends StatelessWidget {
           ...buttonWidgets,
           ...textWidgets,
           ...inputFields,
+          ...largeRestaurantItems,
         ],
       ),
     );
   }
 
+  List<Widget> get largeRestaurantItems => [
+        verticalSpaceLarge,
+        BoxText.headline('LargeMerchantItem'),
+        verticalSpaceMedium,
+        LargeMerchantItem(
+          name: 'McDonald',
+          images: [
+            'https://baconmockup.com/640/360',
+            'https://baconmockup.com/641/360',
+            'https://baconmockup.com/639/360',
+            'https://baconmockup.com/638/360'
+          ],
+          categories: ['Arabic', 'Turkish', 'Chinese'],
+          deliveryCost: 4.2,
+          deliveryInMinutes: 26,
+          rating: 3.4,
+          numberOfRatings: 41,
+        ),
+        verticalSpaceMedium,
+        LargeMerchantItem(
+          name: 'McDonald',
+          images: [
+            'https://baconmockup.com/640/360',
+            'https://baconmockup.com/641/360',
+            'https://baconmockup.com/639/360',
+            'https://baconmockup.com/638/360'
+          ],
+          categories: ['Arabic', 'Turkish', 'Chinese'],
+          deliveryCost: 0,
+          deliveryInMinutes: 26,
+          rating: 3.4,
+          numberOfRatings: 41,
+        )
+      ];
   List<Widget> get textWidgets => [
         BoxText.headline('Text Styles'),
         verticalSpaceMedium,

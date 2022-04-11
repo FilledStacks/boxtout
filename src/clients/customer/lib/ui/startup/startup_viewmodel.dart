@@ -1,3 +1,4 @@
+import 'package:customer/api/firestore_api.dart';
 import 'package:customer/app/app.locator.dart';
 import 'package:customer/app/app.logger.dart';
 import 'package:customer/app/app.router.dart';

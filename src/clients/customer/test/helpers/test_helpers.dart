@@ -91,16 +91,24 @@ MockDialogService getAndRegisterDialogService() {
   return service;
 }
 
-MockFirestoreApi getAndRegisterFirestoreApi({
-  bool saveAddressSuccess = true,
-  bool isCityServiced = true,
-}) {
+MockFirestoreApi getAndRegisterFirestoreApi(
+    {bool saveAddressSuccess = true,
+    bool isCityServiced = true,
+    List<Address>? userAdresses,
+    String? regionId}) {
   _removeRegistrationIfExists<FirestoreApi>();
   final service = MockFirestoreApi();
 
   when(service.isCityServiced(city: anyNamed('city')))
       .thenAnswer((realInvocation) => Future.value(isCityServiced));
-
+  when(service.getAddressListForUser(any))
+      .thenAnswer((realInvocation) => Future.value(userAdresses ?? []));
+  when(service.getMerchantsCollectionForRegion(regionId: anyNamed('regionId')))
+      .thenAnswer((realInvocation) => Future.value([]));
+  when(service.extractRegionIdFromUserAddresses(
+          addresses: userAdresses ?? anyNamed('addresses'),
+          userDefaultAddressId: anyNamed('userDefaultAddressId')))
+      .thenReturn(regionId ?? 'RegionId');
   when(service.saveAddress(
     address: anyNamed('address'),
     user: anyNamed('user'),

@@ -4,11 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:customer/constants/app_keys.dart';
 import 'package:customer/exceptions/firestore_api_exception.dart';
 import 'package:customer/models/application_models.dart';
+import 'package:customer/extensions/string_extensions.dart';
 
 class FirestoreApi {
   final log = getLogger('FirestoreApi');
 
-  final CollectionReference usersCollection =
+  final CollectionReference<Map<String, dynamic>> usersCollection =
       FirebaseFirestore.instance.collection(UsersFirestoreKey);
 
   final CollectionReference regionsCollection =
@@ -61,7 +62,7 @@ class FirestoreApi {
     log.i('address:$address');
 
     try {
-      final addressDoc = getAddressCollectionForUser(user.id).doc();
+      final addressDoc = _getAddressCollectionForUser(user.id).doc();
       final newAddressId = addressDoc.id;
       log.v('Address will be stored with id: $newAddressId');
 
@@ -84,8 +85,8 @@ class FirestoreApi {
       }
 
       return true;
-    } on Exception catch (e) {
-      log.e('we could not save the users address. $e');
+    } on Exception catch (error) {
+      log.e('we could not save the users address. $error');
       return false;
     }
   }
@@ -96,7 +97,77 @@ class FirestoreApi {
     return cityDocument.exists;
   }
 
-  CollectionReference getAddressCollectionForUser(String userId) {
+  CollectionReference<Map<String, dynamic>> _getAddressCollectionForUser(
+      String userId) {
     return usersCollection.doc(userId).collection(AddressesFirestoreKey);
+  }
+
+  Future<List<Address>> getAddressListForUser(String userId) async {
+    log.i('userId:$userId');
+    try {
+      final addressCollection =
+          await _getAddressCollectionForUser(userId).get();
+      log.v('addressCollection: ${addressCollection.toString()}');
+
+      List<Address> addresses = addressCollection.docs.map((address) {
+        return Address.fromJson(address.data());
+      }).toList();
+      return addresses;
+    } catch (error) {
+      throw FirestoreApiException(
+        devDetails: error.toString(),
+        message: "getAddressListForUser() failed,",
+      );
+    }
+  }
+
+  String extractRegionIdFromUserAddresses(
+      {required List<Address> addresses,
+      required String userDefaultAddressId}) {
+    log.i('addresses:$addresses, userDefaultAddressId:$userDefaultAddressId');
+    try {
+      return addresses
+          .firstWhere(
+            (address) => address.id == userDefaultAddressId,
+          )
+          .city!
+          .toCityDocument;
+    } on StateError catch (error) {
+      throw FirestoreApiException(
+        devDetails: error.toString(),
+        message:
+            "we couldn't found the default address of the user in our address collection",
+      );
+    }
+  }
+
+  Future<List<Merchant>> getMerchantsCollectionForRegion(
+      {required String regionId}) async {
+    log.i('regionId:$regionId');
+    try {
+      final regionCollections = await regionsCollection
+          .doc(regionId)
+          .collection(MerchantsFirestoreKey)
+          .get();
+      if (regionCollections.docs.isEmpty) {
+        log.w('We have no merchants in this region');
+        return [];
+      }
+
+      final regionCollectionsDocuments = regionCollections.docs;
+      log.v(
+          'for regionId: $regionId, Merchants fetched: $regionCollectionsDocuments');
+      List<Merchant> merchants = regionCollectionsDocuments.map((merchant) {
+        var data = merchant.data();
+        data.putIfAbsent('id', () => merchant.id);
+        return Merchant.fromJson(data);
+      }).toList();
+      return merchants;
+    } catch (error) {
+      throw FirestoreApiException(
+          devDetails: error.toString(),
+          message:
+              'An error ocurred while calling getMerchantsCollectionForRegion()');
+    }
   }
 }

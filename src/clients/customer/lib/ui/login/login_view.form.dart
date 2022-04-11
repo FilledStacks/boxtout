@@ -39,16 +39,33 @@ mixin $LoginView on StatelessWidget {
     // The dispose function for a TextEditingController sets all listeners to null
 
     emailController.dispose();
+    emailFocusNode.dispose();
     passwordController.dispose();
+    passwordFocusNode.dispose();
   }
 }
 
 extension ValueProperties on FormViewModel {
-  String? get emailValue => this.formValueMap[EmailValueKey];
-  String? get passwordValue => this.formValueMap[PasswordValueKey];
+  String? get emailValue => this.formValueMap[EmailValueKey] as String?;
+  String? get passwordValue => this.formValueMap[PasswordValueKey] as String?;
 
   bool get hasEmail => this.formValueMap.containsKey(EmailValueKey);
   bool get hasPassword => this.formValueMap.containsKey(PasswordValueKey);
+
+  bool get hasEmailValidationMessage =>
+      this.fieldsValidationMessages[EmailValueKey]?.isNotEmpty ?? false;
+  bool get hasPasswordValidationMessage =>
+      this.fieldsValidationMessages[PasswordValueKey]?.isNotEmpty ?? false;
+
+  String? get emailValidationMessage =>
+      this.fieldsValidationMessages[EmailValueKey];
+  String? get passwordValidationMessage =>
+      this.fieldsValidationMessages[PasswordValueKey];
 }
 
-extension Methods on FormViewModel {}
+extension Methods on FormViewModel {
+  setEmailValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[EmailValueKey] = validationMessage;
+  setPasswordValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[PasswordValueKey] = validationMessage;
+}

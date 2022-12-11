@@ -16,7 +16,7 @@ The reason I chose a Food delivery app is because:
 
 ## Products Overview
 
-Let's look at what we’ll require at minimum to build this product and have it be useful as a product. We’ll go through the process that I use to go through and quote for a new project when a client reaches out to me. We’ll work our way from the app through the entire system and then make a list of each of those items. We’ll start with the most important. Each of the descriptions will have a boldd word which indicates something else that needs to be built.
+Let's look at what we’ll require at minimum to build this product and have it be useful as a product. We’ll go through the process that I use to go through and quote for a new project when a client reaches out to me. We’ll work our way from the app through the entire system and then make a list of each of those items. We’ll start with the most important. Each of the descriptions will have a bold word which indicates something else that needs to be built.
 
 ### Customer Mobile Application
 
